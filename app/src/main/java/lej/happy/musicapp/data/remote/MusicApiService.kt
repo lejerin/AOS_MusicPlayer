@@ -4,7 +4,7 @@ import lej.happy.musicapp.data.ResponseData
 import retrofit2.Response
 import retrofit2.http.GET
 
-interface ApiService {
+interface MusicApiService {
 
     @GET("info/new")
     suspend fun getNewReleasesMusicList(): Response<ResponseData>

@@ -5,11 +5,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import lej.happy.musicapp.data.ResponseData
-import lej.happy.musicapp.data.remote.ApiService
+import lej.happy.musicapp.data.remote.MusicApiService
 import lej.happy.musicapp.data.remote.BaseApiResponse
 import lej.happy.musicapp.data.remote.NetworkResult
 
-class MusicInfoRepository(private val service: ApiService) : BaseApiResponse() {
+class MusicInfoRepository(private val service: MusicApiService) : BaseApiResponse() {
 
     /** 전체 음악 리스트 */
     suspend fun requestNewReleasesMusicList(): Flow<NetworkResult<ResponseData>> {

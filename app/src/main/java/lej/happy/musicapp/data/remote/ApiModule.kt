@@ -1,9 +1,6 @@
 package lej.happy.musicapp.data.remote
 
-import android.content.Context
 import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -69,9 +66,9 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+    fun provideApiService(retrofit: Retrofit): MusicApiService = retrofit.create(MusicApiService::class.java)
 
     @Singleton
     @Provides
-    fun providesRepository(apiService: ApiService) = MusicInfoRepository(apiService)
+    fun providesRepository(apiService: MusicApiService) = MusicInfoRepository(apiService)
 }

@@ -8,11 +8,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import lej.happy.musicapp.R
 import lej.happy.musicapp.databinding.ActivityMainBinding
 import lej.happy.musicapp.ui.base.BaseActivity
+import lej.happy.musicapp.ui.music.MediaPlayerManager
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
 
     private val binding: ActivityMainBinding by binding(R.layout.activity_main)
+
+    @Inject
+    lateinit var mMediaPlayerManager: MediaPlayerManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,5 +30,10 @@ class MainActivity : BaseActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bnvMain.setupWithNavController(navController)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mMediaPlayerManager.stop()
     }
 }
