@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="musicInfo"
-            type="lej.happy.musicapp.data.ResponseData.MusicInfo" />
+            name="vm"
+            type="lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel" />
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:gravity="center"
-                android:text="@{musicInfo.album}"
+                android:text="@{vm.currentPlayInfo.album}"
                 android:textSize="18dp"
                 android:maxLines="1"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_finish"
@@ -86,7 +86,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{musicInfo.title}"
+                android:text="@{vm.currentPlayInfo.title}"
                 android:textSize="16dp"
                 android:layout_marginStart="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -106,7 +106,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_top_view"
-            bind:glideCacheImage="@{musicInfo.albumCover}" />
+            bind:glideCacheImage="@{vm.currentPlayInfo.albumCover}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_default"
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="@{musicInfo.title}"
+                android:text="@{vm.currentPlayInfo.title}"
                 android:maxLines="1"
                 android:textSize="20dp"
                 app:layout_constraintEnd_toStartOf="@+id/btn_like"
@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"
-                android:text="@{musicInfo.singer}"
+                android:text="@{vm.currentPlayInfo.singer}"
                 android:textSize="18dp"
                 app:layout_constraintEnd_toStartOf="@+id/btn_like"
                 app:layout_constraintStart_toStartOf="@+id/tv_title_song_player"

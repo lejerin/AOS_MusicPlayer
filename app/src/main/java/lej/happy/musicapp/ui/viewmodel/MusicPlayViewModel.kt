@@ -10,9 +10,18 @@ import javax.inject.Inject
 class MusicPlayViewModel @Inject constructor() : ViewModel() {
 
     @Inject
-    lateinit var mMediaPlayerManager: MediaPlayerManager
+    lateinit var mediaPlayerManager: MediaPlayerManager
+
+    val musicEvent
+    get() = mediaPlayerManager.musicEvent
+
+    val playProgression
+    get() = mediaPlayerManager.currentProgress
+
+    val currentPlayInfo
+    get() = mediaPlayerManager.currentMusicInfo
 
     fun setPlayList(setList: MutableList<ResponseData.MusicInfo>) {
-        mMediaPlayerManager.start(setList)
+        mediaPlayerManager.start(setList)
     }
 }

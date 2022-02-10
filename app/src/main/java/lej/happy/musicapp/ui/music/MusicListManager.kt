@@ -1,5 +1,7 @@
 package lej.happy.musicapp.ui.music
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import lej.happy.musicapp.data.ResponseData
 
 open class MusicListManager : IMusicListManger {
@@ -7,40 +9,43 @@ open class MusicListManager : IMusicListManger {
     private val musicInfoList = mutableListOf<ResponseData.MusicInfo>()
 
     private var currentPlayIndex : Int? = null
-
-    val currentMusicInfo: ResponseData.MusicInfo?
-    get() = if (currentPlayIndex != null && musicInfoList.isNotEmpty()) {
-        musicInfoList[currentPlayIndex!!]}
-    else {
-        null
-    }
-        override fun setPlayList(newList: MutableList<ResponseData.MusicInfo>) {
-            musicInfoList.clear()
-            musicInfoList.addAll(newList)
-            currentPlayIndex = if (musicInfoList.isNotEmpty()) {
-                0
-            } else {
-                null
+        set(value) {
+            value?.let {
+                _currentMusicInfo.value = musicInfoList[it]
             }
+            field = value
         }
 
-        override fun add(musicInfo: ResponseData.MusicInfo) {
+    private val _currentMusicInfo: MutableLiveData<ResponseData.MusicInfo> = MutableLiveData()
+    val currentMusicInfo: LiveData<ResponseData.MusicInfo> = _currentMusicInfo
 
-        }
-
-        override fun add(addList: MutableList<ResponseData.MusicInfo>) {
-
-        }
-
-        override fun remove(musicInfo: ResponseData.MusicInfo) {
-
-        }
-
-        override fun remove(addList: MutableList<ResponseData.MusicInfo>) {
-
-        }
-
-        override fun removeAll() {
-
+    override fun setPlayList(newList: MutableList<ResponseData.MusicInfo>) {
+        musicInfoList.clear()
+        musicInfoList.addAll(newList)
+        currentPlayIndex = if (musicInfoList.isNotEmpty()) {
+            0
+        } else {
+            null
         }
     }
+
+    override fun add(musicInfo: ResponseData.MusicInfo) {
+
+    }
+
+    override fun add(addList: MutableList<ResponseData.MusicInfo>) {
+
+    }
+
+    override fun remove(musicInfo: ResponseData.MusicInfo) {
+
+    }
+
+    override fun remove(addList: MutableList<ResponseData.MusicInfo>) {
+
+    }
+
+    override fun removeAll() {
+
+    }
+}

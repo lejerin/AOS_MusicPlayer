@@ -6,4 +6,5 @@ interface IMediaPlayerManager {
     fun start(playList: MutableList<ResponseData.MusicInfo>)
     fun stop()
     fun pause()
+    fun resume()
 }
