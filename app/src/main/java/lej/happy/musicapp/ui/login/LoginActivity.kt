@@ -17,5 +17,6 @@ class LoginActivity : BaseActivity() {
 
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finish()
     }
 }

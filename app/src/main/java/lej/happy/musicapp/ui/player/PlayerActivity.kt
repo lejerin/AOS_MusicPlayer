@@ -2,6 +2,7 @@ package lej.happy.musicapp.ui.player
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.SeekBar
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import lej.happy.musicapp.R
@@ -32,6 +33,19 @@ class PlayerActivity : BaseActivity() {
             mMusicPlayViewModel.setPlayList(mutableListOf(it))
             binding.vm = mMusicPlayViewModel
         }
+        mMusicPlayViewModel.playProgress.observe(this, {
+            Log.i("eunjin", "playProgress ${it}")
+        })
+        binding.appCompatSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {}
+            override fun onStartTrackingTouch(p0: SeekBar?) {
+                mMusicPlayViewModel.mediaPlayerManager.changingSeekBarProgress = true
+            }
+            override fun onStopTrackingTouch(p0: SeekBar?) {
+                p0?.progress?.let { mMusicPlayViewModel.setPlayTime(it) }
+                mMusicPlayViewModel.mediaPlayerManager.changingSeekBarProgress = false
+            }
+        })
     }
 
     private fun initObserver() {

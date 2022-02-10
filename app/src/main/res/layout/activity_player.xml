@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutDescription="@xml/activity_player_scene"
-        tools:context=".ui.player.PlayerActivity">
+        tools:context=".ui.player.PlayerActivity"
+        android:background="#3C2606">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_top_view"
@@ -28,6 +29,7 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="10dp"
                 android:padding="2dp"
+                app:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -39,6 +41,7 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="10dp"
                 android:padding="2dp"
+                app:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -52,6 +55,7 @@
                 android:gravity="center"
                 android:text="@{vm.currentPlayInfo.album}"
                 android:textSize="18dp"
+                android:textColor="@color/text"
                 android:maxLines="1"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_finish"
                 app:layout_constraintEnd_toStartOf="@+id/btn_more"
@@ -88,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{vm.currentPlayInfo.title}"
                 android:textSize="16dp"
+                android:textColor="@color/text"
                 android:layout_marginStart="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/view"
@@ -119,17 +124,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_top_view">
 
+            <ImageView
+                android:id="@+id/btn_unlike"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_singer_player"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_title_song_player"
+                app:srcCompat="@drawable/unlike" />
+
             <TextView
                 android:id="@+id/tv_title_song_player"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:text="@{vm.currentPlayInfo.title}"
+                android:layout_marginHorizontal="5dp"
                 android:maxLines="1"
+                android:text="@{vm.currentPlayInfo.title}"
                 android:textSize="20dp"
+                android:textColor="@color/text"
                 app:layout_constraintEnd_toStartOf="@+id/btn_like"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn_unlike"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -137,9 +153,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
                 android:text="@{vm.currentPlayInfo.singer}"
                 android:textSize="18dp"
+                android:textColor="@color/text"
                 app:layout_constraintEnd_toStartOf="@+id/btn_like"
                 app:layout_constraintStart_toStartOf="@+id/tv_title_song_player"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_song_player" />
@@ -148,11 +164,11 @@
                 android:id="@+id/btn_like"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:padding="2dp"
+                android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_singer_player"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_title_song_player"
-                app:srcCompat="@drawable/ic_baseline_star_outline_24" />
+                app:srcCompat="@drawable/like" />
 
             <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/appCompatSeekBar"
@@ -161,19 +177,73 @@
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_singer_player" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_singer_player"
+                android:thumbTint="@color/white"
+                android:progressBackgroundTint="#CFCFCF"
+                android:progressTint="@color/white"
+                android:min="0"
+                android:max="100"
+                android:progress="@{vm.playProgress}" />
 
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="20dp"
+                app:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/appCompatSeekBar"
                 app:srcCompat="@drawable/ic_baseline_play_circle_24" />
+
+            <ImageView
+                android:id="@+id/btn_shuffle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                app:srcCompat="@drawable/shuffle"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/btn_prev"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                app:layout_constraintStart_toEndOf="@+id/btn_shuffle"
+                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                app:srcCompat="@drawable/prev"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/btn_next"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_loop"
+                app:layout_constraintStart_toEndOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                app:srcCompat="@drawable/next"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/btn_loop"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                app:srcCompat="@drawable/loop"
+                app:tint="@color/white" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -7,4 +7,5 @@ interface IMediaPlayerManager {
     fun stop()
     fun pause()
     fun resume()
+    fun setPlayTime(progress: Int)
 }

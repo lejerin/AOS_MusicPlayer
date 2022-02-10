@@ -1,5 +1,7 @@
 package lej.happy.musicapp.ui.viewmodel
 
+import android.util.Log
+import android.widget.SeekBar
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import lej.happy.musicapp.data.ResponseData
@@ -15,13 +17,17 @@ class MusicPlayViewModel @Inject constructor() : ViewModel() {
     val musicEvent
     get() = mediaPlayerManager.musicEvent
 
-    val playProgression
+    val playProgress
     get() = mediaPlayerManager.currentProgress
 
     val currentPlayInfo
     get() = mediaPlayerManager.currentMusicInfo
 
-    fun setPlayList(setList: MutableList<ResponseData.MusicInfo>) {
-        mediaPlayerManager.start(setList)
+    fun setPlayList(playList: MutableList<ResponseData.MusicInfo>) {
+        mediaPlayerManager.start(playList = playList)
+    }
+
+    fun setPlayTime(progress: Int) {
+        mediaPlayerManager.setPlayTime(progress = progress)
     }
 }
