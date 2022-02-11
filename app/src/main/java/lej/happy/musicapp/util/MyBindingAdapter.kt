@@ -1,6 +1,7 @@
 package lej.happy.musicapp.util
 
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -26,4 +27,5 @@ object MyBindingAdapter {
             Log.e(TAG, "thumbnail error : $e")
         }
     }
+
 }

@@ -40,4 +40,12 @@ class MusicPlayViewModel @Inject constructor() : ViewModel() {
     fun setCurrentPlayTimeString(progress: Int) {
         mediaPlayerManager.setCurrentPlayTime(progress = progress)
     }
+
+    fun pauseMusic() {
+        mediaPlayerManager.pause()
+    }
+
+    fun resumeMusic() {
+        mediaPlayerManager.resume()
+    }
 }

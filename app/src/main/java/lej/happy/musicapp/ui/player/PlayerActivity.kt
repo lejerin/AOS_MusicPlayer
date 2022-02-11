@@ -2,6 +2,7 @@ package lej.happy.musicapp.ui.player
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.SeekBar
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,8 +33,9 @@ class PlayerActivity : BaseActivity() {
     private fun initView() {
         musicInfo?.let {
             mMusicPlayViewModel.setPlayList(mutableListOf(it))
-            binding.vm = mMusicPlayViewModel
         }
+        binding.vm = mMusicPlayViewModel
+        binding.activity = this@PlayerActivity
         binding.appCompatSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
@@ -48,6 +50,35 @@ class PlayerActivity : BaseActivity() {
                 mMusicPlayViewModel.mediaPlayerManager.changingSeekBarProgress = false
             }
         })
+    }
+
+    fun onClickPlayButton(view: View) {
+        changeSelectedView(view)
+        if (view.isSelected) {
+            mMusicPlayViewModel.pauseMusic()
+        } else {
+            mMusicPlayViewModel.resumeMusic()
+        }
+    }
+
+    fun onClickUnlikeButton(view: View) {
+        changeSelectedView(view)
+    }
+
+    fun onClickLikeButton(view: View) {
+        changeSelectedView(view)
+    }
+
+    fun onClickLoopButton(view: View) {
+        changeSelectedView(view)
+    }
+
+    fun onClickRandomButton(view: View) {
+        changeSelectedView(view)
+    }
+
+    private fun changeSelectedView(view: View) {
+        view.isSelected = !view.isSelected
     }
 
     private fun initObserver() {

@@ -6,6 +6,9 @@
 
     <data>
         <variable
+            name="activity"
+            type="lej.happy.musicapp.ui.player.PlayerActivity" />
+        <variable
             name="vm"
             type="lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel" />
     </data>
@@ -15,7 +18,16 @@
         android:layout_height="match_parent"
         app:layoutDescription="@xml/activity_player_scene"
         tools:context=".ui.player.PlayerActivity"
-        android:background="#3C2606">
+        android:background="#2D086E">
+
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.55" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_top_view"
@@ -105,9 +117,10 @@
             android:id="@+id/img_album_cover"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="H,1:1"
-            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="40dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_top_view"
@@ -117,33 +130,36 @@
             android:id="@+id/cl_default"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="350dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cl_top_view">
+            app:layout_constraintTop_toTopOf="@+id/guideline">
 
             <ImageView
                 android:id="@+id/btn_unlike"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:padding="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_singer_player"
+                android:onClick="@{activity::onClickUnlikeButton}"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_title_song_player"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_title_song_player"
-                app:srcCompat="@drawable/unlike" />
+                app:srcCompat="@drawable/selector_unlike_btn" />
 
             <TextView
                 android:id="@+id/tv_title_song_player"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
                 android:maxLines="1"
                 android:text="@{vm.currentPlayInfo.title}"
-                android:textSize="20dp"
                 android:textColor="@color/text"
+                android:textSize="25dp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/btn_like"
                 app:layout_constraintStart_toEndOf="@+id/btn_unlike"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -152,10 +168,11 @@
                 android:id="@+id/tv_singer_player"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
                 android:text="@{vm.currentPlayInfo.singer}"
-                android:textSize="18dp"
                 android:textColor="@color/text"
+                android:textSize="18dp"
                 app:layout_constraintEnd_toStartOf="@+id/btn_like"
                 app:layout_constraintStart_toStartOf="@+id/tv_title_song_player"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_song_player" />
@@ -164,48 +181,51 @@
                 android:id="@+id/btn_like"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:padding="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_singer_player"
+                android:onClick="@{activity::onClickLikeButton}"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_title_song_player"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_title_song_player"
-                app:srcCompat="@drawable/like" />
+                app:srcCompat="@drawable/selector_like_btn" />
 
             <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/appCompatSeekBar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_singer_player"
-                android:thumbTint="@color/white"
+                android:max="100"
+                android:min="0"
+                android:progress="@{vm.playProgress}"
                 android:progressBackgroundTint="#CFCFCF"
                 android:progressTint="@color/white"
-                android:min="0"
-                android:max="100"
-                android:progress="@{vm.playProgress}" />
+                android:thumbTint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_singer_player" />
 
             <ImageView
-                android:id="@+id/imageView4"
+                android:id="@+id/btn_play"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
+                android:onClick="@{activity::onClickPlayButton}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_current_time"
-                app:srcCompat="@drawable/ic_baseline_play_circle_24"
+                app:srcCompat="@drawable/selector_play_btn"
                 app:tint="@color/white" />
 
             <ImageView
                 android:id="@+id/btn_shuffle"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:onClick="@{activity::onClickRandomButton}"
                 android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="@+id/btn_play"
                 app:srcCompat="@drawable/shuffle"
                 app:tint="@color/white" />
 
@@ -215,9 +235,10 @@
                 android:layout_height="40dp"
                 android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imageView4"
+                app:layout_constraintEnd_toStartOf="@+id/btn_play"
+                app:layout_constraintHorizontal_bias="0.7"
                 app:layout_constraintStart_toEndOf="@+id/btn_shuffle"
-                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                app:layout_constraintTop_toTopOf="@+id/btn_play"
                 app:srcCompat="@drawable/prev"
                 app:tint="@color/white" />
 
@@ -228,8 +249,9 @@
                 android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_loop"
-                app:layout_constraintStart_toEndOf="@+id/imageView4"
-                app:layout_constraintTop_toTopOf="@+id/imageView4"
+                app:layout_constraintHorizontal_bias="0.3"
+                app:layout_constraintStart_toEndOf="@+id/btn_play"
+                app:layout_constraintTop_toTopOf="@+id/btn_play"
                 app:srcCompat="@drawable/next"
                 app:tint="@color/white" />
 
@@ -237,20 +259,22 @@
                 android:id="@+id/btn_loop"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:onClick="@{activity::onClickLoopButton}"
                 android:padding="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView4"
-                app:srcCompat="@drawable/loop"
+                app:layout_constraintTop_toTopOf="@+id/btn_play"
+                app:srcCompat="@drawable/selector_loop_btn"
                 app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/tv_current_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
                 android:text="@{vm.playCurrentTimeString}"
                 android:textColor="@color/text"
-                android:layout_marginStart="12dp"
+                android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="@+id/appCompatSeekBar"
                 app:layout_constraintTop_toBottomOf="@+id/appCompatSeekBar" />
 
@@ -258,9 +282,10 @@
                 android:id="@+id/tv_duration_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
                 android:text="@{vm.playDurationTimeString}"
                 android:textColor="@color/text"
-                android:layout_marginEnd="12dp"
+                android:textSize="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/appCompatSeekBar" />
 
@@ -296,6 +321,8 @@
             app:layout_constraintHeight_percent="0.82"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ll_sliding" />
+
+
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

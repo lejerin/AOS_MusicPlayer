@@ -2,6 +2,7 @@ package lej.happy.musicapp.ui.music
 
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -22,6 +23,7 @@ class MediaPlayerManager @Inject constructor() : MusicListManager(), IMediaPlaye
 
     enum class MusicEvent {
         START,
+        RESUME,
         PAUSE,
         STOP
     }
@@ -104,7 +106,7 @@ class MediaPlayerManager @Inject constructor() : MusicListManager(), IMediaPlaye
 
     override fun resume() {
         mediaPlayer.start()
-        musicEvent.postValue(MusicEvent.START)
+        musicEvent.postValue(MusicEvent.RESUME)
     }
 
     override fun stop() {
