@@ -11,6 +11,7 @@ import lej.happy.musicapp.databinding.ActivityPlayerBinding
 import lej.happy.musicapp.ui.base.BaseActivity
 import lej.happy.musicapp.ui.music.MediaPlayerManager
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
+import lej.happy.musicapp.util.TimeUtils
 
 @AndroidEntryPoint
 class PlayerActivity : BaseActivity() {
@@ -33,11 +34,12 @@ class PlayerActivity : BaseActivity() {
             mMusicPlayViewModel.setPlayList(mutableListOf(it))
             binding.vm = mMusicPlayViewModel
         }
-        mMusicPlayViewModel.playProgress.observe(this, {
-            Log.i("eunjin", "playProgress ${it}")
-        })
         binding.appCompatSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {}
+            override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    mMusicPlayViewModel.setCurrentPlayTimeString(progress)
+                }
+            }
             override fun onStartTrackingTouch(p0: SeekBar?) {
                 mMusicPlayViewModel.mediaPlayerManager.changingSeekBarProgress = true
             }

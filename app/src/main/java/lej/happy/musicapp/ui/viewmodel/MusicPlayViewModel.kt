@@ -17,6 +17,12 @@ class MusicPlayViewModel @Inject constructor() : ViewModel() {
     val musicEvent
     get() = mediaPlayerManager.musicEvent
 
+    val playCurrentTimeString
+        get() = mediaPlayerManager.currentTimeString
+
+    val playDurationTimeString
+        get() = mediaPlayerManager.durationTimeString
+
     val playProgress
     get() = mediaPlayerManager.currentProgress
 
@@ -29,5 +35,9 @@ class MusicPlayViewModel @Inject constructor() : ViewModel() {
 
     fun setPlayTime(progress: Int) {
         mediaPlayerManager.setPlayTime(progress = progress)
+    }
+
+    fun setCurrentPlayTimeString(progress: Int) {
+        mediaPlayerManager.setCurrentPlayTime(progress = progress)
     }
 }

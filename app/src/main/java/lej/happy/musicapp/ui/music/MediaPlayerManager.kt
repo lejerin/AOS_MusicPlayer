@@ -9,6 +9,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import lej.happy.musicapp.data.ResponseData
+import lej.happy.musicapp.data.SingleLiveEvent
+import lej.happy.musicapp.util.TimeUtils
+import java.lang.String.format
+import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,13 +26,23 @@ class MediaPlayerManager @Inject constructor() : MusicListManager(), IMediaPlaye
         STOP
     }
 
-    private val _musicEvent: MutableLiveData<MusicEvent> = MutableLiveData()
-    val musicEvent: LiveData<MusicEvent> = _musicEvent
+    val musicEvent: SingleLiveEvent<MusicEvent> = SingleLiveEvent()
 
-    var changingSeekBarProgress = false
+    /** 음악 변경될 때마다 이벤트 전달 */
+    private val _duration: MutableLiveData<Int?> = MutableLiveData()
+    val durationTimeString: LiveData<String> = Transformations.map(_duration) {
+        TimeUtils.getDurationString(it)
+    }
 
     /** 값 변경이 있을 때만 이벤트 전달 */
-    private val _currentProgress: MutableLiveData<Int> = MutableLiveData()
+    private val _currentPosition: MutableLiveData<Int?> = MutableLiveData()
+    val currentTimeString: LiveData<String> = Transformations.map(_currentPosition) {
+        TimeUtils.getDurationString(it)
+    }
+
+    /** 값 변경이 있을 때만 이벤트 전달 */
+    var changingSeekBarProgress = false
+    private val _currentProgress: MutableLiveData<Int> = MutableLiveData(0)
     val currentProgress: LiveData<Int> = Transformations.distinctUntilChanged(_currentProgress)
 
     private val mediaPlayer by lazy {
@@ -35,7 +50,10 @@ class MediaPlayerManager @Inject constructor() : MusicListManager(), IMediaPlaye
             setAudioStreamType(AudioManager.STREAM_MUSIC)
             setOnPreparedListener(MediaPlayer.OnPreparedListener { mp ->
                 mp.start()
-                _musicEvent.postValue(MusicEvent.START)
+                _duration.postValue(mp.duration)
+                _currentPosition.postValue(0)
+                _currentProgress.postValue(0)
+                musicEvent.postValue(MusicEvent.START)
             })
         }
     }
@@ -45,6 +63,7 @@ class MediaPlayerManager @Inject constructor() : MusicListManager(), IMediaPlaye
             if (mediaPlayer.isPlaying && !changingSeekBarProgress) {
                 val progress = (mediaPlayer.currentPosition.toFloat() / mediaPlayer.duration * 100).toInt()
                 _currentProgress.postValue(progress)
+                _currentPosition.postValue(mediaPlayer.currentPosition)
             }
             Thread.sleep(1000)
         }
@@ -54,7 +73,14 @@ class MediaPlayerManager @Inject constructor() : MusicListManager(), IMediaPlaye
         job.start()
     }
 
+    private fun initLiveData() {
+        _currentProgress.value = 0
+        _currentPosition.value = null
+        _duration.value = null
+    }
+
     override fun start(playList: MutableList<ResponseData.MusicInfo>) {
+        initLiveData()
         mediaPlayer.reset()
         setPlayList(playList)
         currentMusicInfo.value?.mck?.let {
@@ -67,19 +93,22 @@ class MediaPlayerManager @Inject constructor() : MusicListManager(), IMediaPlaye
         mediaPlayer.seekTo(((mediaPlayer.duration / 100.0f) * progress).toInt())
     }
 
+    override fun setCurrentPlayTime(progress: Int) {
+        _currentPosition.postValue(((mediaPlayer.duration / 100.0f) * progress).toInt())
+    }
+
     override fun pause() {
         mediaPlayer.pause()
-        _musicEvent.postValue(MusicEvent.PAUSE)
+        musicEvent.postValue(MusicEvent.PAUSE)
     }
 
     override fun resume() {
         mediaPlayer.start()
-        _musicEvent.postValue(MusicEvent.START)
+        musicEvent.postValue(MusicEvent.START)
     }
 
     override fun stop() {
         mediaPlayer.stop()
-        _musicEvent.postValue(MusicEvent.STOP)
+        musicEvent.postValue(MusicEvent.STOP)
     }
-
 }
