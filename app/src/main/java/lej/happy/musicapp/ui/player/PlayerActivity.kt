@@ -12,14 +12,13 @@ import lej.happy.musicapp.databinding.ActivityPlayerBinding
 import lej.happy.musicapp.ui.base.BaseActivity
 import lej.happy.musicapp.ui.music.MediaPlayerManager
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
-import lej.happy.musicapp.util.TimeUtils
 
 @AndroidEntryPoint
 class PlayerActivity : BaseActivity() {
 
     private val binding: ActivityPlayerBinding by binding(R.layout.activity_player)
 
-    private val musicInfo: ResponseData.MusicInfo? by lazy { intent.getSerializableExtra("music") as? ResponseData.MusicInfo }
+    private val musicList: ArrayList<ResponseData.MusicInfo>? by lazy { intent.getSerializableExtra("musicList") as? ArrayList<ResponseData.MusicInfo> }
 
     private val mMusicPlayViewModel: MusicPlayViewModel by viewModels()
 
@@ -31,8 +30,8 @@ class PlayerActivity : BaseActivity() {
     }
 
     private fun initView() {
-        musicInfo?.let {
-            mMusicPlayViewModel.setPlayList(mutableListOf(it))
+        musicList?.let {
+            mMusicPlayViewModel.setPlayList(it)
         }
         binding.vm = mMusicPlayViewModel
         binding.activity = this@PlayerActivity
