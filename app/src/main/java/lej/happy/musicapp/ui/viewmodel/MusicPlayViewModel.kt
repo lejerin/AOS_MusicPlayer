@@ -29,6 +29,9 @@ class MusicPlayViewModel @Inject constructor() : ViewModel() {
     val currentPlayInfo
     get() = mediaPlayerManager.currentMusicInfo
 
+    val playList
+    get() = mediaPlayerManager.getPlayList()
+
     fun setPlayList(playList: MutableList<ResponseData.MusicInfo>) {
         mediaPlayerManager.start(playList = playList)
     }

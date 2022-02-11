@@ -45,7 +45,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
+                app:srcCompat="@drawable/ic_arrow_down" />
 
             <ImageView
                 android:id="@+id/btn_more"
@@ -57,7 +57,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
+                app:srcCompat="@drawable/ic_more" />
 
             <TextView
                 android:id="@+id/tv_title_album_player"

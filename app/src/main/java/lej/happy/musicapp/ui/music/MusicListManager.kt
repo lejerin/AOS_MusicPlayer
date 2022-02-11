@@ -19,6 +19,8 @@ open class MusicListManager : IMusicListManger {
     private val _currentMusicInfo: MutableLiveData<ResponseData.MusicInfo> = MutableLiveData()
     val currentMusicInfo: LiveData<ResponseData.MusicInfo> = _currentMusicInfo
 
+
+
     override fun setPlayList(newList: MutableList<ResponseData.MusicInfo>) {
         musicInfoList.clear()
         musicInfoList.addAll(newList)
@@ -27,6 +29,10 @@ open class MusicListManager : IMusicListManger {
         } else {
             null
         }
+    }
+
+    override fun getPlayList(): List<ResponseData.MusicInfo>? {
+        return if (musicInfoList.isNotEmpty()) musicInfoList.toList() else null
     }
 
     override fun add(musicInfo: ResponseData.MusicInfo) {
