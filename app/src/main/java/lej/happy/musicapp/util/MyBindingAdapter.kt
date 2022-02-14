@@ -28,4 +28,10 @@ object MyBindingAdapter {
         }
     }
 
+    @androidx.databinding.BindingAdapter("bind:bindClipCircle")
+    @JvmStatic
+    fun bindClipCircle(imageView: ImageView, isClip: Boolean) {
+        imageView.clipToOutline = true
+    }
+
 }

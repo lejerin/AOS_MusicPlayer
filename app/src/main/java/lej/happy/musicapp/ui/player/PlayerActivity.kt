@@ -12,28 +12,37 @@ import lej.happy.musicapp.databinding.ActivityPlayerBinding
 import lej.happy.musicapp.ui.base.BaseActivity
 import lej.happy.musicapp.ui.music.MediaPlayerManager
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
-import lej.happy.musicapp.util.TimeUtils
 
 @AndroidEntryPoint
 class PlayerActivity : BaseActivity() {
 
     private val binding: ActivityPlayerBinding by binding(R.layout.activity_player)
 
-    private val musicInfo: ResponseData.MusicInfo? by lazy { intent.getSerializableExtra("music") as? ResponseData.MusicInfo }
+    private val music: ResponseData.MusicInfo? by lazy { intent.getSerializableExtra("music") as? ResponseData.MusicInfo }
+    private val musicList: ArrayList<ResponseData.MusicInfo>? by lazy { intent.getSerializableExtra("musicList") as? ArrayList<ResponseData.MusicInfo> }
 
     private val mMusicPlayViewModel: MusicPlayViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.lifecycleOwner = this@PlayerActivity
+        initMusic()
         initView()
         initObserver()
     }
 
-    private fun initView() {
-        musicInfo?.let {
+    private fun initMusic() {
+        // 한 곡 재생
+        music?.let {
             mMusicPlayViewModel.setPlayList(mutableListOf(it))
         }
+        // 여러 곡 리스트 재생
+        musicList?.let {
+            mMusicPlayViewModel.setPlayList(it)
+        }
+    }
+
+    private fun initView() {
         binding.vm = mMusicPlayViewModel
         binding.activity = this@PlayerActivity
         binding.appCompatSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
