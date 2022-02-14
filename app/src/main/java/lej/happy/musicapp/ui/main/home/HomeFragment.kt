@@ -13,6 +13,7 @@ import lej.happy.musicapp.databinding.FragmentHomeBinding
 import lej.happy.musicapp.ui.adapter.NewReleasesAdapter
 import lej.happy.musicapp.ui.adapter.TopRankAdapter
 import lej.happy.musicapp.ui.base.BaseFragment
+import lej.happy.musicapp.ui.main.MainActivity
 import lej.happy.musicapp.ui.player.PlayerActivity
 import lej.happy.musicapp.ui.viewmodel.MusicInfoViewModel
 
@@ -21,14 +22,18 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     override val layoutResourceId = R.layout.fragment_home
 
     private val mMusicInfoViewModel: MusicInfoViewModel by viewModels()
-
     private val newReleasesAdapter = NewReleasesAdapter {
         val intent = Intent(requireContext(), PlayerActivity::class.java).apply {
             putExtra("music", it)
         }
         startActivity(intent)
     }
-    private val topRankAdapter = TopRankAdapter(itemClickAction = )
+    private val topRankAdapter = TopRankAdapter {
+        val intent = Intent(requireContext(), PlayerActivity::class.java).apply {
+            putExtra("music", it)
+        }
+        startActivity(intent)
+    }
 
     override fun initBinding() {
         initRecyclerView()

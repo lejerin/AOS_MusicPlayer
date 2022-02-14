@@ -10,7 +10,7 @@ import lej.happy.musicapp.data.ResponseData
 import lej.happy.musicapp.databinding.ItemRvMusicBinding
 import lej.happy.musicapp.databinding.ItemRvNewReleasesBinding
 
-class TopRankAdapter(private val itemClickAction: (List<ResponseData.MusicInfo>, Int) -> Unit) : RecyclerView.Adapter<TopRankAdapter.MainViewHolder>() {
+class TopRankAdapter(private val itemClickAction: (ResponseData.MusicInfo) -> Unit) : RecyclerView.Adapter<TopRankAdapter.MainViewHolder>() {
 
     val items = mutableListOf<ResponseData.MusicInfo>()
 
@@ -35,7 +35,7 @@ class TopRankAdapter(private val itemClickAction: (List<ResponseData.MusicInfo>,
 
         init {
             binding.root.setOnClickListener {
-                itemClickAction.invoke(items, adapterPosition)
+                itemClickAction.invoke(items[adapterPosition])
             }
         }
 
