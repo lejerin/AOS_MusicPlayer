@@ -8,15 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import lej.happy.musicapp.R
 import lej.happy.musicapp.data.ResponseData
 import lej.happy.musicapp.databinding.ItemRvMusicBinding
+import lej.happy.musicapp.databinding.ItemRvPlayListBinding
 
 class PlayerListAdapter(private val itemClickAction: (ResponseData.MusicInfo) -> Unit) : RecyclerView.Adapter<PlayerListAdapter.MainViewHolder>() {
 
     val items = mutableListOf<ResponseData.MusicInfo>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        DataBindingUtil.inflate<ItemRvMusicBinding>(
+        DataBindingUtil.inflate<ItemRvPlayListBinding>(
             LayoutInflater.from(parent.context),
-            R.layout.item_rv_music,
+            R.layout.item_rv_play_list,
             parent,
             false
         ).let { MainViewHolder(it) }
@@ -29,7 +30,7 @@ class PlayerListAdapter(private val itemClickAction: (ResponseData.MusicInfo) ->
         holder.bind(items[position])
 
     @SuppressLint("ClickableViewAccessibility")
-    inner class MainViewHolder(private val binding: ItemRvMusicBinding) :
+    inner class MainViewHolder(private val binding: ItemRvPlayListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
