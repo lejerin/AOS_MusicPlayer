@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import lej.happy.musicapp.R
 import lej.happy.musicapp.data.ResponseData
 import lej.happy.musicapp.databinding.ActivityPlayerBinding
@@ -45,6 +46,7 @@ class PlayerActivity : BaseActivity() {
     private fun initView() {
         binding.vm = mMusicPlayViewModel
         binding.activity = this@PlayerActivity
+        setTimerTextAnimation()
         binding.appCompatSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
@@ -61,8 +63,19 @@ class PlayerActivity : BaseActivity() {
         })
     }
 
+    private fun setTimerTextAnimation() {
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(2000)
+            withContext(Dispatchers.Main){
+                binding.tvSmallSongTitle.isSelected = true
+                binding.tvTitleSongPlayer.isSelected = true
+            }
+        }
+    }
+
     fun onClickPlayButton(view: View) {
-        changeSelectedView(view)
+        changeSelectedView(binding.btnPlay)
+        changeSelectedView(binding.ivSmallPlay)
         if (view.isSelected) {
             mMusicPlayViewModel.pauseMusic()
         } else {
