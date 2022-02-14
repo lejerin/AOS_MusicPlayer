@@ -36,7 +36,7 @@ open class MusicListManager : IMusicListManger {
     }
 
     override fun add(musicInfo: ResponseData.MusicInfo) {
-
+        musicInfoList.add(musicInfo)
     }
 
     override fun add(addList: MutableList<ResponseData.MusicInfo>) {
