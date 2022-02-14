@@ -20,6 +20,7 @@ class MarqueeTextView : AppCompatTextView {
         maxLines = 1
         isSingleLine = true
         ellipsize = TextUtils.TruncateAt.MARQUEE
-      //  isSelected = true
+        marqueeRepeatLimit = -1
+      //  isSelected = true     
     }
 }
