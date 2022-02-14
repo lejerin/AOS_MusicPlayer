@@ -47,6 +47,7 @@ class PlayerActivity : BaseActivity() {
         binding.vm = mMusicPlayViewModel
         binding.activity = this@PlayerActivity
         setTimerTextAnimation()
+        window.navigationBarColor = getColor(R.color.purple_500)
         binding.appCompatSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {

@@ -28,11 +28,18 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
         }
         startActivity(intent)
     }
-    private val topRankAdapter = TopRankAdapter {
-        val intent = Intent(requireContext(), PlayerActivity::class.java).apply {
-            putExtra("music", it)
+    private val topRankAdapter = TopRankAdapter { event, item ->
+        when (event) {
+            TopRankAdapter.ClickMusicListEvent.PLAY -> {
+                val intent = Intent(requireContext(), PlayerActivity::class.java).apply {
+                    putExtra("music", item)
+                }
+                startActivity(intent)
+            }
+            TopRankAdapter.ClickMusicListEvent.MORE -> {
+                // Bottom sheet 팝업창
+            }
         }
-        startActivity(intent)
     }
 
     override fun initBinding() {

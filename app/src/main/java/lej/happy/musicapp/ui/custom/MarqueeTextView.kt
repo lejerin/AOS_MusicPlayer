@@ -21,6 +21,6 @@ class MarqueeTextView : AppCompatTextView {
         isSingleLine = true
         ellipsize = TextUtils.TruncateAt.MARQUEE
         marqueeRepeatLimit = -1
-      //  isSelected = true     
+      //  isSelected = true
     }
 }

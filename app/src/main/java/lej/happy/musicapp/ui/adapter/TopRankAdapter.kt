@@ -10,9 +10,14 @@ import lej.happy.musicapp.data.ResponseData
 import lej.happy.musicapp.databinding.ItemRvMusicBinding
 import lej.happy.musicapp.databinding.ItemRvNewReleasesBinding
 
-class TopRankAdapter(private val itemClickAction: (ResponseData.MusicInfo) -> Unit) : RecyclerView.Adapter<TopRankAdapter.MainViewHolder>() {
+class TopRankAdapter(private val itemClickAction: (ClickMusicListEvent ,ResponseData.MusicInfo) -> Unit) : RecyclerView.Adapter<TopRankAdapter.MainViewHolder>() {
 
     val items = mutableListOf<ResponseData.MusicInfo>()
+
+    enum class ClickMusicListEvent {
+        PLAY,
+        MORE
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         DataBindingUtil.inflate<ItemRvMusicBinding>(
@@ -35,7 +40,10 @@ class TopRankAdapter(private val itemClickAction: (ResponseData.MusicInfo) -> Un
 
         init {
             binding.root.setOnClickListener {
-                itemClickAction.invoke(items[adapterPosition])
+                itemClickAction.invoke(ClickMusicListEvent.PLAY, items[adapterPosition])
+            }
+            binding.ivMoreInfo.setOnClickListener {
+                itemClickAction.invoke(ClickMusicListEvent.MORE, items[adapterPosition])
             }
         }
 
