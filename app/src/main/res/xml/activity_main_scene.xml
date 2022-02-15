@@ -18,6 +18,7 @@
     </ConstraintSet>
 
     <Transition
+        android:id="@+id/transition_main"
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/start" >
     </Transition>

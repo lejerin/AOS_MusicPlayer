@@ -223,7 +223,7 @@
         app:motionInterpolator="easeOut"
         app:duration="100"
         app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start" >
+        app:constraintSetStart="@+id/unfloating" >
         <OnSwipe
             motion:dragDirection="dragUp"
             app:touchRegionId="@+id/ll_sliding" />

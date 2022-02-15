@@ -23,7 +23,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     private val mMusicPlayViewModel: MusicPlayViewModel by activityViewModels()
 
     override fun initBinding() {
-        binding.mlPlayer.getTransition(R.id.transition_sliding).isEnabled = false
+        // binding.mlPlayer.getTransition(R.id.transition_sliding).isEnabled = false
         initView()
         initMotionLayout()
         initObserver()
@@ -69,7 +69,11 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
             override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
                 (activity as? MainActivity)?.also { mainActivity ->
-                    mainActivity.setMotionProgress(100f)
+                    if (p0?.progress ?: 0f > 0.5f) {
+                        mainActivity.setMotionProgress(100f)
+                    } else {
+                        mainActivity.setMotionProgress(0f)
+                    }
                 }
             }
 
