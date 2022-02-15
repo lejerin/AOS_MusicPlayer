@@ -7,11 +7,12 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.main.MainActivity"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layoutDescription="@xml/activity_main_scene">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcv_main"
@@ -35,8 +36,8 @@
             android:id="@+id/fcv_player"
             android:name="lej.happy.musicapp.ui.player.PlayerFragment"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            app:layout_constraintBottom_toBottomOf="@+id/fcv_main" />
+            android:layout_height="80dp"
+            app:layout_constraintBottom_toTopOf="@+id/bnv_main" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

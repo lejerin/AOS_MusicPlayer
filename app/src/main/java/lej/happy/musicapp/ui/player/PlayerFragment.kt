@@ -20,6 +20,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     private val mMusicPlayViewModel: MusicPlayViewModel by activityViewModels()
 
     override fun initBinding() {
+        binding.mlPlayer.getTransition(R.id.transition_sliding).isEnabled = false
         initView()
         initObserver()
     }
@@ -95,9 +96,8 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 }
             }
         })
-        mMusicPlayViewModel.music.observe(this@PlayerFragment, {
+        mMusicPlayViewModel.music.observe(viewLifecycleOwner, {
             // 한 곡 재생
-            Log.i("eunjin", "data ${it}")
             it?.let { mMusicPlayViewModel.setPlayList(mutableListOf(it)) }
         })
         mMusicPlayViewModel.musicList.observe(viewLifecycleOwner, {
@@ -108,7 +108,6 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
     override fun onPause() {
         super.onPause()
-        Log.i("eunjin", "pause")
         mMusicPlayViewModel.mediaPlayerManager.pause()
     }
 }

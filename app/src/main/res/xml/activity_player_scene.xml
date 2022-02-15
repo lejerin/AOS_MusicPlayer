@@ -19,8 +19,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ll_sliding" />
         <Constraint android:id="@+id/cl_top_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.1"
+            android:layout_height="80dp"
             android:alpha="1"/>
         <Constraint android:id="@+id/cl_default"
             android:layout_width="0dp"
@@ -85,8 +84,7 @@
             android:layout_marginBottom="10dp" />
         <Constraint android:id="@+id/cl_top_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.1"
+            android:layout_height="80dp"
             android:alpha="0"/>
         <Constraint android:id="@+id/cl_default"
             android:layout_width="0dp"
@@ -109,6 +107,7 @@
     </ConstraintSet>
 
     <Transition
+        android:id="@+id/transition_sliding"
         app:motionInterpolator="easeOut"
         app:duration="100"
         app:constraintSetEnd="@id/end"
