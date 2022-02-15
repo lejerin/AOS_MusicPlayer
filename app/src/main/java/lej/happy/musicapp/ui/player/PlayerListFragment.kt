@@ -1,5 +1,6 @@
 package lej.happy.musicapp.ui.player
 
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,7 +15,7 @@ class PlayerListFragment: BaseFragment<FragmentPlayerListBinding>() {
 
     override val layoutResourceId = R.layout.fragment_player_list
 
-    private val mMusicPlayViewModel: MusicPlayViewModel by viewModels()
+    private val mMusicPlayViewModel: MusicPlayViewModel by activityViewModels()
 
     private val playerListAdapter = PlayerListAdapter {
 

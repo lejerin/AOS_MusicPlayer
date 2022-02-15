@@ -1,6 +1,8 @@
 package lej.happy.musicapp.ui.main.home
 
 import android.content.Intent
+import android.util.Log
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,9 +17,8 @@ import lej.happy.musicapp.ui.adapter.BottomSheetMenuAdapter
 import lej.happy.musicapp.ui.adapter.NewReleasesAdapter
 import lej.happy.musicapp.ui.adapter.TopRankAdapter
 import lej.happy.musicapp.ui.base.BaseFragment
-import lej.happy.musicapp.ui.main.MainActivity
 import lej.happy.musicapp.ui.player.PlayMoreDialog
-import lej.happy.musicapp.ui.player.PlayerActivity
+import lej.happy.musicapp.ui.player.PlayerFragment
 import lej.happy.musicapp.ui.viewmodel.MusicInfoViewModel
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
 
@@ -25,13 +26,11 @@ import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
 class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     override val layoutResourceId = R.layout.fragment_home
 
-    private val mMusicPlayViewModel: MusicPlayViewModel by viewModels()
-    private val mMusicInfoViewModel: MusicInfoViewModel by viewModels()
+    private val mMusicPlayViewModel: MusicPlayViewModel by activityViewModels()
+    private val mMusicInfoViewModel: MusicInfoViewModel by activityViewModels()
+
     private val newReleasesAdapter = NewReleasesAdapter {
-        val intent = Intent(requireContext(), PlayerActivity::class.java).apply {
-            putExtra("music", it)
-        }
-        startActivity(intent)
+        startMusic(it)
     }
     private val topRankAdapter = TopRankAdapter { event, item ->
         when (event) {
@@ -39,7 +38,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                 startMusic(item)
             }
             TopRankAdapter.ClickMusicListEvent.MORE -> {
-                // Bottom sheet 팝업창
                 val bottomSheetDialog = PlayMoreDialog(item) {
                     when (it) {
                         BottomSheetMenuAdapter.Item.START -> {
@@ -65,10 +63,8 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun startMusic(item: ResponseData.MusicInfo) {
-        val intent = Intent(requireContext(), PlayerActivity::class.java).apply {
-            putExtra("music", item)
-        }
-        startActivity(intent)
+        Log.i("eunjin", "start $item")
+        mMusicPlayViewModel.music.value = item
     }
 
     private fun initObserver() {

@@ -2,9 +2,11 @@ package lej.happy.musicapp.ui.viewmodel
 
 import android.util.Log
 import android.widget.SeekBar
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import lej.happy.musicapp.data.ResponseData
+import lej.happy.musicapp.data.SingleLiveEvent
 import lej.happy.musicapp.ui.music.MediaPlayerManager
 import javax.inject.Inject
 
@@ -13,6 +15,12 @@ class MusicPlayViewModel @Inject constructor() : ViewModel() {
 
     @Inject
     lateinit var mediaPlayerManager: MediaPlayerManager
+
+    val music: MutableLiveData<ResponseData.MusicInfo> = MutableLiveData()
+    val musicList: SingleLiveEvent<ArrayList<ResponseData.MusicInfo>> = SingleLiveEvent()
+
+
+    // XML 위한 LiveData
 
     val musicEvent
     get() = mediaPlayerManager.musicEvent

@@ -1,53 +1,34 @@
 package lej.happy.musicapp.ui.player
 
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.SeekBar
-import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import lej.happy.musicapp.R
-import lej.happy.musicapp.data.ResponseData
-import lej.happy.musicapp.databinding.ActivityPlayerBinding
-import lej.happy.musicapp.ui.base.BaseActivity
+import lej.happy.musicapp.databinding.FragmentPlayerBinding
+import lej.happy.musicapp.ui.base.BaseFragment
 import lej.happy.musicapp.ui.music.MediaPlayerManager
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
 
 @AndroidEntryPoint
-class PlayerActivity : BaseActivity() {
+class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
+    override val layoutResourceId = R.layout.fragment_player
 
-    private val binding: ActivityPlayerBinding by binding(R.layout.activity_player)
+    private val mMusicPlayViewModel: MusicPlayViewModel by activityViewModels()
 
-    private val music: ResponseData.MusicInfo? by lazy { intent.getSerializableExtra("music") as? ResponseData.MusicInfo }
-    private val musicList: ArrayList<ResponseData.MusicInfo>? by lazy { intent.getSerializableExtra("musicList") as? ArrayList<ResponseData.MusicInfo> }
-
-    private val mMusicPlayViewModel: MusicPlayViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding.lifecycleOwner = this@PlayerActivity
-        initMusic()
+    override fun initBinding() {
         initView()
         initObserver()
     }
 
-    private fun initMusic() {
-        // 한 곡 재생
-        music?.let {
-            mMusicPlayViewModel.setPlayList(mutableListOf(it))
-        }
-        // 여러 곡 리스트 재생
-        musicList?.let {
-            mMusicPlayViewModel.setPlayList(it)
-        }
-    }
-
     private fun initView() {
         binding.vm = mMusicPlayViewModel
-        binding.activity = this@PlayerActivity
+        binding.fragment = this@PlayerFragment
         setTimerTextAnimation()
-        window.navigationBarColor = getColor(R.color.purple_500)
+        // window.navigationBarColor = getColor(R.color.purple_500)
         binding.appCompatSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
@@ -105,7 +86,8 @@ class PlayerActivity : BaseActivity() {
     }
 
     private fun initObserver() {
-        mMusicPlayViewModel.musicEvent.observe(this@PlayerActivity, {
+        Log.i("eunjin", "initObserver")
+        mMusicPlayViewModel.musicEvent.observe(viewLifecycleOwner, {
             when (it) {
                 MediaPlayerManager.MusicEvent.START -> {
                     // UI 작업
@@ -113,11 +95,20 @@ class PlayerActivity : BaseActivity() {
                 }
             }
         })
+        mMusicPlayViewModel.music.observe(this@PlayerFragment, {
+            // 한 곡 재생
+            Log.i("eunjin", "data ${it}")
+            it?.let { mMusicPlayViewModel.setPlayList(mutableListOf(it)) }
+        })
+        mMusicPlayViewModel.musicList.observe(viewLifecycleOwner, {
+            // 여러 곡 재생
+            it?.let { mMusicPlayViewModel.setPlayList(it) }
+        })
     }
 
     override fun onPause() {
         super.onPause()
+        Log.i("eunjin", "pause")
         mMusicPlayViewModel.mediaPlayerManager.pause()
     }
-
 }
