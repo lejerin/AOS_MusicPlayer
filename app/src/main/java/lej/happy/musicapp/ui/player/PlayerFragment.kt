@@ -3,6 +3,7 @@ package lej.happy.musicapp.ui.player
 import android.util.Log
 import android.view.View
 import android.widget.SeekBar
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -10,8 +11,10 @@ import kotlinx.coroutines.*
 import lej.happy.musicapp.R
 import lej.happy.musicapp.databinding.FragmentPlayerBinding
 import lej.happy.musicapp.ui.base.BaseFragment
+import lej.happy.musicapp.ui.main.MainActivity
 import lej.happy.musicapp.ui.music.MediaPlayerManager
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
@@ -22,6 +25,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     override fun initBinding() {
         binding.mlPlayer.getTransition(R.id.transition_sliding).isEnabled = false
         initView()
+        initMotionLayout()
         initObserver()
     }
 
@@ -43,6 +47,35 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 p0?.progress?.let { mMusicPlayViewModel.setPlayTime(it) }
                 mMusicPlayViewModel.mediaPlayerManager.changingSeekBarProgress = false
             }
+        })
+    }
+
+    private fun initMotionLayout() {
+        binding.mlPlayer.setTransitionListener(object :
+            MotionLayout.TransitionListener {
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+            }
+
+            override fun onTransitionChange( // 재정의를 통해 메인 엑티비티(모션 레이아웃)과 연동한다.
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int,
+                progress: Float
+            ) {
+                (activity as? MainActivity)?.also { mainActivity ->
+                    mainActivity.setMotionProgress(progress)
+                }
+            }
+
+            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+                (activity as? MainActivity)?.also { mainActivity ->
+                    mainActivity.setMotionProgress(100f)
+                }
+            }
+
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+            }
+
         })
     }
 
