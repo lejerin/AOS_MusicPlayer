@@ -7,11 +7,13 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/ml_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.main.MainActivity"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layoutDescription="@xml/activity_main_scene">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcv_main"
@@ -24,19 +26,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/nav_graph" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bnv_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:menu="@menu/menu_bottom" />
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcv_player"
             android:name="lej.happy.musicapp.ui.player.PlayerFragment"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            app:layout_constraintBottom_toBottomOf="@+id/fcv_main" />
+            android:layout_height="match_parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bnv_main"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/menu_bottom" />
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>

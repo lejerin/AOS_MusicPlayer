@@ -1,8 +1,11 @@
 package lej.happy.musicapp.ui.player
 
+import android.os.Build
 import android.util.Log
+import android.view.DragEvent
 import android.view.View
 import android.widget.SeekBar
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -10,8 +13,10 @@ import kotlinx.coroutines.*
 import lej.happy.musicapp.R
 import lej.happy.musicapp.databinding.FragmentPlayerBinding
 import lej.happy.musicapp.ui.base.BaseFragment
+import lej.happy.musicapp.ui.main.MainActivity
 import lej.happy.musicapp.ui.music.MediaPlayerManager
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
+import kotlin.math.abs
 
 @AndroidEntryPoint
 class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
@@ -20,7 +25,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     private val mMusicPlayViewModel: MusicPlayViewModel by activityViewModels()
 
     override fun initBinding() {
+        // binding.mlPlayer.getTransition(R.id.transition_sliding).isEnabled = false
         initView()
+        initMotionLayout()
         initObserver()
     }
 
@@ -42,6 +49,69 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 p0?.progress?.let { mMusicPlayViewModel.setPlayTime(it) }
                 mMusicPlayViewModel.mediaPlayerManager.changingSeekBarProgress = false
             }
+        })
+    }
+
+
+    private fun initMotionLayout() {
+        binding.mlPlayer.setTransitionListener(object :
+            MotionLayout.TransitionListener {
+
+            override fun onTransitionStarted(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int
+            ) {
+
+            }
+
+            override fun onTransitionChange(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int,
+                progress: Float
+            ) {
+                when {
+                    (startId == R.id.floating && endId == R.id.unfloating) or
+                    (endId == R.id.floating && startId == R.id.unfloating) -> {
+                        (activity as? MainActivity)?.also { mainActivity ->
+                            mainActivity.setMotionProgress(progress)
+                        }
+                    }
+                    else -> {
+
+                    }
+                }
+
+            }
+
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                when (currentId) {
+                    R.id.floating -> {
+                        (activity as? MainActivity)?.also { mainActivity ->
+                            mainActivity.setMotionProgress(0f)
+                        }
+                    }
+                    R.id.unfloating -> {
+                        (activity as? MainActivity)?.also { mainActivity ->
+                            mainActivity.setMotionProgress(100f)
+                        }
+                    }
+                    else -> {
+
+                    }
+                }
+            }
+
+            override fun onTransitionTrigger(
+                motionLayout: MotionLayout?,
+                triggerId: Int,
+                positive: Boolean,
+                progress: Float
+            ) {
+
+            }
+
         })
     }
 
@@ -95,9 +165,8 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 }
             }
         })
-        mMusicPlayViewModel.music.observe(this@PlayerFragment, {
+        mMusicPlayViewModel.music.observe(viewLifecycleOwner, {
             // 한 곡 재생
-            Log.i("eunjin", "data ${it}")
             it?.let { mMusicPlayViewModel.setPlayList(mutableListOf(it)) }
         })
         mMusicPlayViewModel.musicList.observe(viewLifecycleOwner, {
@@ -108,7 +177,6 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
     override fun onPause() {
         super.onPause()
-        Log.i("eunjin", "pause")
         mMusicPlayViewModel.mediaPlayerManager.pause()
     }
 }

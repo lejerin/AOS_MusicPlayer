@@ -14,17 +14,26 @@
     </data>
 
     <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/ml_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutDescription="@xml/activity_player_scene"
-        tools:context=".ui.player.PlayerFragment"
-        android:background="@color/purple_700">
+        tools:context=".ui.player.PlayerFragment">
+
+        <View
+            android:id="@+id/view_background"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/purple_700"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cl_small_view" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_top_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintHeight_percent="0.1">
+            android:layout_height="80dp"
+            android:background="@color/purple_700"
+            app:layout_constraintTop_toTopOf="@+id/cl_small_view">
 
             <ImageView
                 android:id="@+id/btn_finish"
@@ -32,11 +41,11 @@
                 android:layout_height="40dp"
                 android:layout_marginStart="10dp"
                 android:padding="2dp"
-                app:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_arrow_down" />
+                app:srcCompat="@drawable/ic_arrow_down"
+                app:tint="@color/white" />
 
             <ImageView
                 android:id="@+id/btn_more"
@@ -44,23 +53,23 @@
                 android:layout_height="40dp"
                 android:layout_marginEnd="10dp"
                 android:padding="2dp"
-                app:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_more" />
+                app:srcCompat="@drawable/ic_more"
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/tv_title_album_player"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:gravity="center"
-                android:text="@{vm.currentPlayInfo.album}"
-                android:textSize="18dp"
-                android:textColor="@color/text"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@{vm.currentPlayInfo.album}"
+                android:textColor="@color/text"
+                android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_finish"
                 app:layout_constraintEnd_toStartOf="@+id/btn_more"
                 app:layout_constraintStart_toEndOf="@+id/btn_finish"
@@ -70,13 +79,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_small_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:alpha="0"
-            app:layout_constraintBottom_toBottomOf="@+id/cl_top_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cl_top_view">
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:layout_constraintTop_toTopOf="parent">
 
             <View
                 android:id="@+id/view"
@@ -110,8 +115,8 @@
                 android:id="@+id/tv_singer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
                 android:ellipsize="end"
+                android:maxLines="1"
                 android:text="@{vm.currentPlayInfo.singer}"
                 android:textColor="@color/white"
                 android:textSize="13dp"
@@ -126,8 +131,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="5dp"
-                android:padding="5dp"
                 android:onClick="@{fragment::onClickPlayButton}"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/iv_small_next"
                 app:layout_constraintTop_toTopOf="parent"
@@ -161,8 +166,8 @@
                 android:id="@+id/btn_unlike"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:onClick="@{fragment::onClickUnlikeButton}"
                 android:layout_marginStart="5dp"
+                android:onClick="@{fragment::onClickUnlikeButton}"
                 android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_title_song_player"
                 app:layout_constraintStart_toStartOf="parent"
@@ -189,9 +194,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:ellipsize="end"
                 android:gravity="center"
                 android:maxLines="1"
-                android:ellipsize="end"
                 android:text="@{vm.currentPlayInfo.singer}"
                 android:textColor="@color/text"
                 android:textSize="18dp"
@@ -319,6 +324,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="20dp"
             app:layout_constraintBottom_toTopOf="@+id/cl_default"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -372,11 +378,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.82"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ll_sliding" />
-
-
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
