@@ -28,7 +28,6 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this@MainActivity
 
         initNavigation()
-        supportFragmentManager.beginTransaction().replace(R.id.fcv_player, PlayerFragment()).commit()
     }
 
     private fun initNavigation() {
