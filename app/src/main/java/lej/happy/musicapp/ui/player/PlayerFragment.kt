@@ -1,6 +1,8 @@
 package lej.happy.musicapp.ui.player
 
+import android.os.Build
 import android.util.Log
+import android.view.DragEvent
 import android.view.View
 import android.widget.SeekBar
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -50,13 +52,20 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         })
     }
 
+
     private fun initMotionLayout() {
         binding.mlPlayer.setTransitionListener(object :
             MotionLayout.TransitionListener {
-            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+
+            override fun onTransitionStarted(
+                motionLayout: MotionLayout?,
+                startId: Int,
+                endId: Int
+            ) {
+
             }
 
-            override fun onTransitionChange( // 재정의를 통해 메인 엑티비티(모션 레이아웃)과 연동한다.
+            override fun onTransitionChange(
                 motionLayout: MotionLayout?,
                 startId: Int,
                 endId: Int,
@@ -94,7 +103,13 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 }
             }
 
-            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+            override fun onTransitionTrigger(
+                motionLayout: MotionLayout?,
+                triggerId: Int,
+                positive: Boolean,
+                progress: Float
+            ) {
+
             }
 
         })
