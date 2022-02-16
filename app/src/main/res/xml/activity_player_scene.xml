@@ -164,7 +164,7 @@
         app:constraintSetEnd="@+id/unfloating">
         <OnSwipe
             app:touchAnchorId="@id/cl_small_view"
-            app:touchAnchorSide="top"
+            app:touchRegionId="@id/cl_small_view"
             app:dragDirection="dragUp" />
     </Transition>
     <Transition
@@ -173,7 +173,7 @@
         app:constraintSetEnd="@+id/unfloating">
         <OnSwipe
             app:touchAnchorId="@id/view_background"
-            app:touchAnchorSide="top"
+            app:touchRegionId="@id/view_background"
             app:dragDirection="dragUp" />
     </Transition>
 
@@ -183,17 +183,22 @@
         app:constraintSetEnd="@+id/list">
         <OnSwipe
             app:touchAnchorId="@id/ll_sliding"
-            app:touchAnchorSide="top"
+            app:touchRegionId="@id/ll_sliding"
             app:dragDirection="dragUp" />
-    </Transition>
-    <Transition
-        android:id="@+id/transition_list_list"
-        app:constraintSetStart="@+id/unfloating"
-        app:constraintSetEnd="@+id/list">
-        <OnSwipe
-            app:touchAnchorId="@id/fcv_player_list"
-            app:touchAnchorSide="top"
-            app:dragDirection="dragUp" />
+        <KeyFrameSet >
+            <KeyAttribute
+                app:motionTarget="@+id/cl_top_view"
+                app:framePosition="60"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/cl_small_view"
+                app:framePosition="90"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/cl_default"
+                app:framePosition="60"
+                android:alpha="0" />
+        </KeyFrameSet>
     </Transition>
 
 </MotionScene>

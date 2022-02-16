@@ -16,9 +16,8 @@ class MusicPlayViewModel @Inject constructor() : ViewModel() {
     @Inject
     lateinit var mediaPlayerManager: MediaPlayerManager
 
-    val music: SingleLiveEvent<ResponseData.MusicInfo> = SingleLiveEvent()
-    val musicList: SingleLiveEvent<ArrayList<ResponseData.MusicInfo>> = SingleLiveEvent()
-
+    val music: MutableLiveData<ResponseData.MusicInfo> = MutableLiveData()
+    val musicList: MutableLiveData<ArrayList<ResponseData.MusicInfo>> = MutableLiveData()
 
     // XML 위한 LiveData
 

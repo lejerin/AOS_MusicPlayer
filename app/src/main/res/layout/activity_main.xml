@@ -26,9 +26,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/nav_graph" />
 
-        <androidx.fragment.app.FragmentContainerView
+        <lej.happy.musicapp.ui.custom.UntouchableFrameLayout
             android:id="@+id/fcv_player"
-            android:name="lej.happy.musicapp.ui.player.PlayerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

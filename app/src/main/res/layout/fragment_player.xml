@@ -13,7 +13,7 @@
             type="lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel" />
     </data>
 
-    <androidx.constraintlayout.motion.widget.MotionLayout
+    <lej.happy.musicapp.ui.custom.UntouchableMotionLayout
         android:id="@+id/ml_player"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -381,5 +381,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ll_sliding" />
 
-    </androidx.constraintlayout.motion.widget.MotionLayout>
+    </lej.happy.musicapp.ui.custom.UntouchableMotionLayout>
 </layout>

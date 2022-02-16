@@ -11,6 +11,7 @@ import lej.happy.musicapp.R
 import lej.happy.musicapp.databinding.ActivityMainBinding
 import lej.happy.musicapp.ui.base.BaseActivity
 import lej.happy.musicapp.ui.music.MediaPlayerManager
+import lej.happy.musicapp.ui.player.PlayerFragment
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -27,6 +28,7 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this@MainActivity
 
         initNavigation()
+        supportFragmentManager.beginTransaction().replace(R.id.fcv_player, PlayerFragment()).commit()
     }
 
     private fun initNavigation() {
