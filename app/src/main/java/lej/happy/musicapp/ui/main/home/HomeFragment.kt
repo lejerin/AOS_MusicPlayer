@@ -76,6 +76,8 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                             CoroutineScope(Dispatchers.Main).launch {
                                 newReleasesAdapter.items.addAll(it.data)
                                 newReleasesAdapter.notifyDataSetChanged()
+
+                                mMusicPlayViewModel.music.value = it.data[0]
                             }
                         }
                     }

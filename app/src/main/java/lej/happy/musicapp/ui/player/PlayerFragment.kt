@@ -62,17 +62,34 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 endId: Int,
                 progress: Float
             ) {
-                (activity as? MainActivity)?.also { mainActivity ->
-                    mainActivity.setMotionProgress(progress)
+                when {
+                    (startId == R.id.floating && endId == R.id.unfloating) or
+                    (endId == R.id.floating && startId == R.id.unfloating) -> {
+                        (activity as? MainActivity)?.also { mainActivity ->
+                            mainActivity.setMotionProgress(progress)
+                        }
+                    }
+                    else -> {
+
+                    }
                 }
+
             }
 
-            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-                (activity as? MainActivity)?.also { mainActivity ->
-                    if (p0?.progress ?: 0f > 0.5f) {
-                        mainActivity.setMotionProgress(100f)
-                    } else {
-                        mainActivity.setMotionProgress(0f)
+            override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                when (currentId) {
+                    R.id.floating -> {
+                        (activity as? MainActivity)?.also { mainActivity ->
+                            mainActivity.setMotionProgress(0f)
+                        }
+                    }
+                    R.id.unfloating -> {
+                        (activity as? MainActivity)?.also { mainActivity ->
+                            mainActivity.setMotionProgress(100f)
+                        }
+                    }
+                    else -> {
+
                     }
                 }
             }

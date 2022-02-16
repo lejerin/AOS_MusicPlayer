@@ -35,16 +35,9 @@ class MainActivity : BaseActivity() {
         binding.bnvMain.setupWithNavController(navController)
     }
 
-    var isFinish = false
+
     fun setMotionProgress(progress: Float) {
-        Log.i("eunjin", "progress $progress")
-        if (!isFinish) {
-            binding.mlMain.progress = progress
-            if (progress == 100f) {
-                binding.mlMain.getTransition(R.id.transition_main).isEnabled = false
-                isFinish = true
-            }
-        }
+        binding.mlMain.progress = progress
     }
 
     override fun onPause() {
