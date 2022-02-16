@@ -1,5 +1,6 @@
 package lej.happy.musicapp.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,13 +20,14 @@ class MusicInfoViewModel @Inject constructor(private val repository: MusicInfoRe
     val newReleasesResponse: LiveData<NetworkResult<ResponseData>> = _newReleasesResponse
 
     private val _topRankResponse: MutableLiveData<NetworkResult<ResponseData>> = MutableLiveData()
-    val topRankResponse: LiveData<NetworkResult<ResponseData>> = _newReleasesResponse
+    val topRankResponse: LiveData<NetworkResult<ResponseData>> = _topRankResponse
 
     fun fetchDataResponse() = viewModelScope.launch {
         repository.requestNewReleasesMusicList().collect { values ->
             _newReleasesResponse.value = values
         }
         repository.requestTopMusicList().collect { values ->
+            Log.i("eunjin", "value ${values.data?.data}")
             _topRankResponse.value = values
         }
     }

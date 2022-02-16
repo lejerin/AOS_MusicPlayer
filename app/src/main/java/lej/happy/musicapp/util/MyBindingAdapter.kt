@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.signature.ObjectKey
 import lej.happy.musicapp.R
 import java.io.File
@@ -13,13 +14,14 @@ import java.lang.Exception
 object MyBindingAdapter {
     private val TAG = MyBindingAdapter::class.java.simpleName
 
-    @androidx.databinding.BindingAdapter("bind:glideCacheImage")
+    @androidx.databinding.BindingAdapter("url", "isOriginSize", requireAll = false)
     @JvmStatic
-    fun setGlideImage(imageView: ImageView, path: String?) {
+    fun setGlideImage(imageView: ImageView, url: String?, isOriginSize: Boolean?) {
         try{
-            path?.let {
+            url?.let {
                 Glide.with(imageView.context)
                     .load(it)
+                    .override(if (isOriginSize == true) Target.SIZE_ORIGINAL else imageView.width)
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                     .centerCrop()
                     .into(imageView)

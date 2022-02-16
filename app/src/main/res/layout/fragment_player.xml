@@ -325,13 +325,14 @@
             android:layout_height="0dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginVertical="20dp"
+            app:isOriginSize="@{true}"
             app:layout_constraintBottom_toTopOf="@+id/cl_default"
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_top_view"
-            bind:bindClipCircle="@{true}"
-            bind:glideCacheImage="@{vm.currentPlayInfo.albumCover}" />
+            app:url="@{vm.currentPlayInfo.albumCover}"
+            bind:bindClipCircle="@{true}" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

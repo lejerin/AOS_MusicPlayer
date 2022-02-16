@@ -76,8 +76,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                             CoroutineScope(Dispatchers.Main).launch {
                                 newReleasesAdapter.items.addAll(it.data)
                                 newReleasesAdapter.notifyDataSetChanged()
-
-                                mMusicPlayViewModel.music.value = it.data[0]
                             }
                         }
                     }
@@ -98,6 +96,8 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                             CoroutineScope(Dispatchers.Main).launch {
                                 topRankAdapter.items.addAll(it.data)
                                 topRankAdapter.notifyDataSetChanged()
+                                Log.i("eunjin", "value2 ${it.data}")
+                                mMusicPlayViewModel.music.value = it.data[0]
                             }
                         }
                     }

@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             bind:bindClipCircle="@{true}"
-            bind:glideCacheImage="@{musicInfo.albumCover}" />
+            app:url="@{musicInfo.albumCover}" />
 
         <TextView
             android:id="@+id/tv_small_song_title"
