@@ -62,7 +62,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                 startId: Int,
                 endId: Int
             ) {
-
+                Log.i("eunjin", "start id $startId ${startId == R.id.floating}")
             }
 
             override fun onTransitionChange(
@@ -82,25 +82,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
                     }
                 }
-
             }
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-                when (currentId) {
-                    R.id.floating -> {
-                        (activity as? MainActivity)?.also { mainActivity ->
-                            mainActivity.setMotionProgress(0f)
-                        }
-                    }
-                    R.id.unfloating -> {
-                        (activity as? MainActivity)?.also { mainActivity ->
-                            mainActivity.setMotionProgress(100f)
-                        }
-                    }
-                    else -> {
-
-                    }
-                }
+                Log.i("eunjin", "onTransitionCompleted id $currentId ${currentId == R.id.floating}")
             }
 
             override fun onTransitionTrigger(

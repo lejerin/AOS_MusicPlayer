@@ -166,6 +166,20 @@
             app:touchAnchorId="@id/cl_small_view"
             app:touchRegionId="@id/cl_small_view"
             app:dragDirection="dragUp" />
+        <KeyFrameSet >
+            <KeyAttribute
+                app:motionTarget="@+id/cl_small_view"
+                app:framePosition="40"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/cl_top_view"
+                app:framePosition="80"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/cl_default"
+                app:framePosition="80"
+                android:alpha="0" />
+        </KeyFrameSet>
     </Transition>
     <Transition
         android:id="@+id/transition_floating_entire"
@@ -175,6 +189,20 @@
             app:touchAnchorId="@id/view_background"
             app:touchRegionId="@id/view_background"
             app:dragDirection="dragUp" />
+        <KeyFrameSet >
+            <KeyAttribute
+                app:motionTarget="@+id/cl_small_view"
+                app:framePosition="40"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/cl_top_view"
+                app:framePosition="80"
+                android:alpha="0" />
+            <KeyAttribute
+                app:motionTarget="@+id/cl_default"
+                app:framePosition="80"
+                android:alpha="0" />
+        </KeyFrameSet>
     </Transition>
 
     <Transition

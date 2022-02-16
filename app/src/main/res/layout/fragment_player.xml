@@ -223,6 +223,7 @@
                 android:layout_marginTop="20dp"
                 android:max="100"
                 android:min="0"
+                android:visibility="gone"
                 android:progress="@{vm.playProgress}"
                 android:progressBackgroundTint="#CFCFCF"
                 android:progressTint="@color/white"
