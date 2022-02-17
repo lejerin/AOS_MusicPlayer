@@ -25,6 +25,7 @@ import kotlin.math.abs
 import android.R.attr.right
 
 import android.R.attr.left
+import android.transition.Transition
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -37,6 +38,8 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     private val mMusicPlayViewModel: MusicPlayViewModel by activityViewModels()
 
     override fun initBinding() {
+        binding.btnDummy.setOnClickListener {
+        }
         initView()
         initMotionLayout()
         initObserver()
@@ -64,19 +67,14 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
 
     private fun initMotionLayout() {
-        binding.mlPlayer.getConstraintSet(R.id.floating)?.let { constraintSet ->
-            constraintSet.setMargin(R.id.cl_small_view, ConstraintSet.BOTTOM, requireContext().navigationHeight() + (activity as MainActivity).getNavigationHeight())
-            Log.i("eunjin", "set")
-        }
-        binding.mlPlayer.setTransitionListener(object :
-            MotionLayout.TransitionListener {
-
+        binding.mlPlayer.getConstraintSet(R.id.floating)?.setMargin(R.id.cl_small_view, ConstraintSet.BOTTOM, requireContext().navigationHeight() + (activity as MainActivity).getNavigationHeight())
+        binding.mlPlayer.setTransitionListener(object : MotionLayout.TransitionListener {
             override fun onTransitionStarted(
                 motionLayout: MotionLayout?,
                 startId: Int,
                 endId: Int
             ) {
-                Log.i("eunjin", "start id $startId ${startId == R.id.floating}")
+
             }
 
             override fun onTransitionChange(
@@ -87,7 +85,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
             ) {
                 when {
                     (startId == R.id.floating && endId == R.id.unfloating) or
-                    (endId == R.id.floating && startId == R.id.unfloating) -> {
+                            (endId == R.id.floating && startId == R.id.unfloating) -> {
                         (activity as? MainActivity)?.also { mainActivity ->
                             mainActivity.setMotionProgress(progress)
                         }
@@ -99,7 +97,16 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
             }
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-                Log.i("eunjin", "onTransitionCompleted id $currentId ${currentId == R.id.floating}")
+
+                if (currentId == R.id.floating) {
+
+                    binding.mlPlayer.cancelLongPress()
+                    binding.mlPlayer.clearAnimation()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                    }
+                    Log.i("eunjin", "current Id")
+                }
             }
 
             override fun onTransitionTrigger(
@@ -124,7 +131,12 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         }
     }
 
+    fun onClickNextButton(view: View) {
+        Log.i("eunjin", "setOnClickListener onClickNextButton")
+    }
+
     fun onClickPlayButton(view: View) {
+        Log.i("eunjin", "setOnClickListener onClickPlayButton")
         changeSelectedView(binding.btnPlay)
         changeSelectedView(binding.ivSmallPlay)
         if (view.isSelected) {

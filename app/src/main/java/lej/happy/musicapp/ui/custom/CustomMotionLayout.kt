@@ -1,11 +1,9 @@
 package lej.happy.musicapp.ui.custom
 
 import android.content.Context
-import android.gesture.Gesture
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.util.Log
-import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -22,9 +20,9 @@ class CustomMotionLayout(context: Context, attributes: AttributeSet? = null) :
     }
     private val hitRect = Rect()
 
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        Log.i("eunjin", "onTouchEvent ${event}")
-        return super.onTouchEvent(event) && getValidSwipe(event)
+        return super.onTouchEvent(event) || getValidSwipe(event)
     }
 
     private fun getValidSwipe(e1: MotionEvent) : Boolean {
@@ -32,7 +30,6 @@ class CustomMotionLayout(context: Context, attributes: AttributeSet? = null) :
         val inTouchRect = hitRect.contains(e1.x.toInt(), e1.y.toInt())
         playerListView.getHitRect(hitRect)
         val outTouchRect = !hitRect.contains(e1.x.toInt(), e1.y.toInt()) // 플레이어 리스트에는 터치 이벤트 안가도록 설정
-        Log.i("eunjin", "${inTouchRect && outTouchRect}")
        return inTouchRect && outTouchRect
     }
 
