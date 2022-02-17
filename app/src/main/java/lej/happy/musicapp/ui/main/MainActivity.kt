@@ -45,6 +45,13 @@ class MainActivity : BaseActivity() {
                 height = this@MainActivity.statusBarHeight()
             }
         }
+        binding.viewMargin.apply {
+            layoutParams = layoutParams.apply {
+                height = this@MainActivity.navigationHeight()
+            }
+        }
+
+
     }
 
     private fun initNavigation() {
@@ -56,6 +63,10 @@ class MainActivity : BaseActivity() {
 
     fun setMotionProgress(progress: Float) {
         binding.mlMain.progress = progress
+    }
+
+    fun getNavigationHeight() : Int {
+        return binding.bnvMain.layoutParams.height
     }
 
     override fun onPause() {

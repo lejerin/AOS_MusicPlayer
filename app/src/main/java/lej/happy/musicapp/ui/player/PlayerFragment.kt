@@ -1,5 +1,6 @@
 package lej.happy.musicapp.ui.player
 
+import android.R.attr
 import android.os.Build
 import android.util.Log
 import android.view.DragEvent
@@ -7,6 +8,7 @@ import android.view.View
 import android.widget.SeekBar
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.view.marginBottom
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +19,16 @@ import lej.happy.musicapp.ui.base.BaseFragment
 import lej.happy.musicapp.ui.main.MainActivity
 import lej.happy.musicapp.ui.music.MediaPlayerManager
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
+import lej.happy.musicapp.util.navigationHeight
+import lej.happy.musicapp.util.statusBarHeight
 import kotlin.math.abs
+import android.R.attr.right
+
+import android.R.attr.left
+import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+
 
 @AndroidEntryPoint
 class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
@@ -26,7 +37,6 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     private val mMusicPlayViewModel: MusicPlayViewModel by activityViewModels()
 
     override fun initBinding() {
-        // binding.mlPlayer.getTransition(R.id.transition_sliding).isEnabled = false
         initView()
         initMotionLayout()
         initObserver()
@@ -54,6 +64,10 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
 
     private fun initMotionLayout() {
+        binding.mlPlayer.getConstraintSet(R.id.floating)?.let { constraintSet ->
+            constraintSet.setMargin(R.id.cl_small_view, ConstraintSet.BOTTOM, requireContext().navigationHeight() + (activity as MainActivity).getNavigationHeight())
+            Log.i("eunjin", "set")
+        }
         binding.mlPlayer.setTransitionListener(object :
             MotionLayout.TransitionListener {
 
