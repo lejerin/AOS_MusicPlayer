@@ -217,13 +217,12 @@
                 app:srcCompat="@drawable/selector_like_btn" />
 
             <androidx.appcompat.widget.AppCompatSeekBar
-                android:id="@+id/appCompatSeekBar"
+                android:id="@+id/seek_bar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:max="100"
                 android:min="0"
-                android:visibility="gone"
                 android:progress="@{vm.playProgress}"
                 android:progressBackgroundTint="#CFCFCF"
                 android:progressTint="@color/white"
@@ -304,8 +303,8 @@
                 android:text="@{vm.playCurrentTimeString}"
                 android:textColor="@color/text"
                 android:textSize="12dp"
-                app:layout_constraintStart_toStartOf="@+id/appCompatSeekBar"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatSeekBar" />
+                app:layout_constraintStart_toStartOf="@+id/seek_bar"
+                app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
 
             <TextView
                 android:id="@+id/tv_duration_time"
@@ -316,7 +315,7 @@
                 android:textColor="@color/text"
                 android:textSize="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatSeekBar" />
+                app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

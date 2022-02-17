@@ -1,8 +1,12 @@
 package lej.happy.musicapp.ui.main
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -12,6 +16,9 @@ import lej.happy.musicapp.databinding.ActivityMainBinding
 import lej.happy.musicapp.ui.base.BaseActivity
 import lej.happy.musicapp.ui.music.MediaPlayerManager
 import lej.happy.musicapp.ui.player.PlayerFragment
+import lej.happy.musicapp.util.navigationHeight
+import lej.happy.musicapp.util.setStatusBarTransparent
+import lej.happy.musicapp.util.statusBarHeight
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -28,6 +35,16 @@ class MainActivity : BaseActivity() {
         binding.lifecycleOwner = this@MainActivity
 
         initNavigation()
+        initTransparentSystemBar()
+    }
+
+    private fun initTransparentSystemBar() {
+        this.setStatusBarTransparent()
+        binding.viewStatusBar.apply {
+            layoutParams = layoutParams.apply {
+                height = this@MainActivity.statusBarHeight()
+            }
+        }
     }
 
     private fun initNavigation() {

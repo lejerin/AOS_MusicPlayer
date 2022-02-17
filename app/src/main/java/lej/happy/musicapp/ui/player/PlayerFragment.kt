@@ -6,6 +6,7 @@ import android.view.DragEvent
 import android.view.View
 import android.widget.SeekBar
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,8 +36,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         binding.vm = mMusicPlayViewModel
         binding.fragment = this@PlayerFragment
         setTimerTextAnimation()
-        // window.navigationBarColor = getColor(R.color.purple_500)
-        binding.appCompatSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
                     mMusicPlayViewModel.setCurrentPlayTimeString(progress)
