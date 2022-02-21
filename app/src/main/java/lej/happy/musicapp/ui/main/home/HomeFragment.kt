@@ -12,7 +12,6 @@ import lej.happy.musicapp.R
 import lej.happy.musicapp.data.ResponseData
 import lej.happy.musicapp.data.remote.NetworkResult
 import lej.happy.musicapp.databinding.FragmentHomeBinding
-import lej.happy.musicapp.ui.adapter.BottomSheetMenuAdapter
 import lej.happy.musicapp.ui.adapter.NewReleasesAdapter
 import lej.happy.musicapp.ui.adapter.TopRankAdapter
 import lej.happy.musicapp.ui.player.PlayMoreDialog
@@ -37,13 +36,19 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
             TopRankAdapter.ClickMusicListEvent.MORE -> {
                 val bottomSheetDialog = PlayMoreDialog(item) {
                     when (it) {
-                        BottomSheetMenuAdapter.Item.START -> {
+                        PlayMoreDialog.Item.START -> {
                             startMusic(item)
                         }
-                        BottomSheetMenuAdapter.Item.ADD_LIST -> {
+                        PlayMoreDialog.Item.ADD_LIST -> {
                             mMusicPlayViewModel.addPlayList(item)
                         }
-                        BottomSheetMenuAdapter.Item.SAVE_MY_LIST -> {
+                        PlayMoreDialog.Item.SAVE_MY_LIST -> {
+
+                        }
+                        PlayMoreDialog.Item.LIKE -> {
+
+                        }
+                        PlayMoreDialog.Item.UNLIKE -> {
 
                         }
                     }

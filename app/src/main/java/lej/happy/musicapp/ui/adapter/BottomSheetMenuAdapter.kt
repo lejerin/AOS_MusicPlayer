@@ -9,19 +9,14 @@ import lej.happy.musicapp.R
 import lej.happy.musicapp.data.ResponseData
 import lej.happy.musicapp.databinding.ItemDefaultListBinding
 import lej.happy.musicapp.databinding.ItemRvPlayListBinding
+import lej.happy.musicapp.ui.player.PlayMoreDialog
 
-class BottomSheetMenuAdapter(private val itemClickAction: (Item) -> Unit) : RecyclerView.Adapter<BottomSheetMenuAdapter.MainViewHolder>() {
-
-    enum class Item {
-        START,
-        ADD_LIST,
-        SAVE_MY_LIST
-    }
+class BottomSheetMenuAdapter(private val itemClickAction: (PlayMoreDialog.Item) -> Unit) : RecyclerView.Adapter<BottomSheetMenuAdapter.MainViewHolder>() {
 
     val items = mutableListOf(
-        Item.START,
-        Item.ADD_LIST,
-        Item.SAVE_MY_LIST
+        PlayMoreDialog.Item.START,
+        PlayMoreDialog.Item.ADD_LIST,
+        PlayMoreDialog.Item.SAVE_MY_LIST
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -49,17 +44,19 @@ class BottomSheetMenuAdapter(private val itemClickAction: (Item) -> Unit) : Recy
             }
         }
 
-        fun bind(item: Item) {
+        fun bind(item: PlayMoreDialog.Item) {
             binding.apply {
                 ivIcon.setImageResource(when (item) {
-                    Item.START -> R.drawable.ic_baseline_play_arrow_24
-                    Item.ADD_LIST -> R.drawable.ic_baseline_queue_music_24
-                    Item.SAVE_MY_LIST -> R.drawable.ic_baseline_playlist_add_24
+                    PlayMoreDialog.Item.START -> R.drawable.ic_baseline_play_arrow_24
+                    PlayMoreDialog.Item.ADD_LIST -> R.drawable.ic_baseline_queue_music_24
+                    PlayMoreDialog.Item.SAVE_MY_LIST -> R.drawable.ic_baseline_playlist_add_24
+                    else -> R.drawable.ic_baseline_playlist_add_24
                 })
                 text = when (item) {
-                    Item.START -> binding.root.context.getString(R.string.bottom_sheet_menu_start)
-                    Item.ADD_LIST -> binding.root.context.getString(R.string.bottom_sheet_menu_add)
-                    Item.SAVE_MY_LIST -> binding.root.context.getString(R.string.bottom_sheet_menu_save)
+                    PlayMoreDialog.Item.START -> binding.root.context.getString(R.string.bottom_sheet_menu_start)
+                    PlayMoreDialog.Item.ADD_LIST -> binding.root.context.getString(R.string.bottom_sheet_menu_add)
+                    PlayMoreDialog.Item.SAVE_MY_LIST -> binding.root.context.getString(R.string.bottom_sheet_menu_save)
+                    else -> ""
                 }
                 executePendingBindings()
             }

@@ -15,9 +15,17 @@ import lej.happy.musicapp.databinding.DialogPlayMoreBinding
 import lej.happy.musicapp.ui.adapter.BottomSheetMenuAdapter
 
 class PlayMoreDialog(private val musicInfo: ResponseData.MusicInfo,
-                     private val itemClickAction: (BottomSheetMenuAdapter.Item) -> Unit) : BottomSheetDialogFragment() {
+                     private val itemClickAction: (Item) -> Unit) : BottomSheetDialogFragment() {
 
     lateinit var binding: DialogPlayMoreBinding
+
+    enum class Item {
+        START,
+        ADD_LIST,
+        SAVE_MY_LIST,
+        LIKE,
+        UNLIKE
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +45,13 @@ class PlayMoreDialog(private val musicInfo: ResponseData.MusicInfo,
             itemClickAction.invoke(it)
             dismiss()
         }
-
+        binding.ivMoreLike.setOnClickListener {
+            it.isSelected = !it.isSelected
+            itemClickAction.invoke(Item.LIKE)
+        }
+        binding.ivMoreUnlike.setOnClickListener {
+            it.isSelected = !it.isSelected
+            itemClickAction.invoke(Item.UNLIKE)
+        }
     }
 }
