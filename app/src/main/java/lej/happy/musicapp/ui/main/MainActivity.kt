@@ -44,6 +44,7 @@ class MainActivity : BaseActivity() {
             layoutParams = layoutParams.apply {
                 height = this@MainActivity.statusBarHeight()
             }
+            Log.i("eunjin", "height ${layoutParams.height}")
         }
         binding.viewMargin.apply {
             layoutParams = layoutParams.apply {
