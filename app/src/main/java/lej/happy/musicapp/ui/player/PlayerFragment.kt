@@ -44,15 +44,15 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    mMusicPlayViewModel.setCurrentPlayTimeString(progress)
+                    mMusicPlayViewModel.mMusicPlayService?.setCurrentPlayTimeString(progress)
                 }
             }
             override fun onStartTrackingTouch(p0: SeekBar?) {
-                mMusicPlayViewModel.mediaPlayerManager.changingSeekBarProgress = true
+                mMusicPlayViewModel.mMusicPlayService?.mediaPlayerManager?.changingSeekBarProgress = true
             }
             override fun onStopTrackingTouch(p0: SeekBar?) {
-                p0?.progress?.let { mMusicPlayViewModel.setPlayTime(it) }
-                mMusicPlayViewModel.mediaPlayerManager.changingSeekBarProgress = false
+                p0?.progress?.let { mMusicPlayViewModel.mMusicPlayService?.setPlayTime(it) }
+                mMusicPlayViewModel.mMusicPlayService?.mediaPlayerManager?.changingSeekBarProgress = false
             }
         })
     }
@@ -132,9 +132,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         changeSelectedView(binding.btnPlay)
         changeSelectedView(binding.ivSmallPlay)
         if (view.isSelected) {
-            mMusicPlayViewModel.pauseMusic()
+            mMusicPlayViewModel.mMusicPlayService?.pauseMusic()
         } else {
-            mMusicPlayViewModel.resumeMusic()
+            mMusicPlayViewModel.mMusicPlayService?.resumeMusic()
         }
     }
 
@@ -170,16 +170,16 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         })
         mMusicPlayViewModel.music.observe(viewLifecycleOwner, {
             // 한 곡 재생
-            it?.let { mMusicPlayViewModel.setPlayList(mutableListOf(it)) }
+            it?.let { mMusicPlayViewModel.mMusicPlayService?.setPlayList(mutableListOf(it)) }
         })
         mMusicPlayViewModel.musicList.observe(viewLifecycleOwner, {
             // 여러 곡 재생
-            it?.let { mMusicPlayViewModel.setPlayList(it) }
+            it?.let { mMusicPlayViewModel.mMusicPlayService?.setPlayList(it) }
         })
     }
 
     override fun onPause() {
         super.onPause()
-        mMusicPlayViewModel.mediaPlayerManager.pause()
+        mMusicPlayViewModel.mMusicPlayService?.mediaPlayerManager?.pause()
     }
 }

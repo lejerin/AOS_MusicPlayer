@@ -11,11 +11,27 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import lej.happy.musicapp.data.ResponseData
 import lej.happy.musicapp.util.TimeUtils
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class MediaPlayerManager @Inject constructor() : MusicListManager(), IMediaPlayerManager {
+class MediaPlayerManager : MusicListManager(), IMediaPlayerManager {
+
+    companion object {
+        val musicEvent: SingleLiveData<MusicEvent> = SingleLiveData()
+
+        /** 음악 변경될 때마다 이벤트 전달 */
+        private val _duration: MutableLiveData<Int?> = MutableLiveData()
+        val durationTimeString: LiveData<String> = Transformations.map(_duration) {
+            TimeUtils.getDurationString(it)
+        }
+
+        /** 값 변경이 있을 때만 이벤트 전달 */
+        private val _currentPosition: MutableLiveData<Int?> = MutableLiveData()
+        val currentTimeString: LiveData<String> = Transformations.map(_currentPosition) {
+            TimeUtils.getDurationString(it)
+        }
+
+        private val _currentProgress: MutableLiveData<Int> = MutableLiveData(0)
+        val currentProgress: LiveData<Int> = Transformations.distinctUntilChanged(_currentProgress)
+    }
 
     enum class MusicEvent {
         START,
@@ -24,24 +40,8 @@ class MediaPlayerManager @Inject constructor() : MusicListManager(), IMediaPlaye
         STOP
     }
 
-    val musicEvent: SingleLiveData<MusicEvent> = SingleLiveData()
-
-    /** 음악 변경될 때마다 이벤트 전달 */
-    private val _duration: MutableLiveData<Int?> = MutableLiveData()
-    val durationTimeString: LiveData<String> = Transformations.map(_duration) {
-        TimeUtils.getDurationString(it)
-    }
-
-    /** 값 변경이 있을 때만 이벤트 전달 */
-    private val _currentPosition: MutableLiveData<Int?> = MutableLiveData()
-    val currentTimeString: LiveData<String> = Transformations.map(_currentPosition) {
-        TimeUtils.getDurationString(it)
-    }
-
     /** 값 변경이 있을 때만 이벤트 전달 */
     var changingSeekBarProgress = false
-    private val _currentProgress: MutableLiveData<Int> = MutableLiveData(0)
-    val currentProgress: LiveData<Int> = Transformations.distinctUntilChanged(_currentProgress)
 
     private val mediaPlayer by lazy {
         MediaPlayer().apply {

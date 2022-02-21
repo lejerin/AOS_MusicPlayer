@@ -40,7 +40,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                             startMusic(item)
                         }
                         PlayMoreDialog.Item.ADD_LIST -> {
-                            mMusicPlayViewModel.addPlayList(item)
+                            mMusicPlayViewModel.mMusicPlayService?.addPlayList(item)
                         }
                         PlayMoreDialog.Item.SAVE_MY_LIST -> {
 

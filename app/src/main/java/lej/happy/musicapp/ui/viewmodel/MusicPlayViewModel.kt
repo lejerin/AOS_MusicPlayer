@@ -1,17 +1,23 @@
 package lej.happy.musicapp.ui.viewmodel
 
+import android.annotation.SuppressLint
+import android.content.ServiceConnection
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import lej.happy.musicapp.data.ResponseData
+import lej.happy.musicapp.service.MusicPlayService
 import lej.happy.musicapp.ui.music.MediaPlayerManager
+import lej.happy.musicapp.ui.music.MusicListManager
 import javax.inject.Inject
 
 @HiltViewModel
 class MusicPlayViewModel @Inject constructor() : ViewModel() {
 
-    @Inject
-    lateinit var mediaPlayerManager: MediaPlayerManager
+    /** Service */
+    @SuppressLint("StaticFieldLeak")
+    var mMusicPlayService: MusicPlayService? = null
+    var mMusicPlayServiceConnection: ServiceConnection? = null
 
     val music: MutableLiveData<ResponseData.MusicInfo> = MutableLiveData()
     val musicList: MutableLiveData<ArrayList<ResponseData.MusicInfo>> = MutableLiveData()
@@ -19,44 +25,17 @@ class MusicPlayViewModel @Inject constructor() : ViewModel() {
     // XML 위한 LiveData
 
     val musicEvent
-    get() = mediaPlayerManager.musicEvent
+        get() = MediaPlayerManager.musicEvent
 
     val playCurrentTimeString
-        get() = mediaPlayerManager.currentTimeString
+        get() = MediaPlayerManager.currentTimeString
 
     val playDurationTimeString
-        get() = mediaPlayerManager.durationTimeString
+        get() = MediaPlayerManager.durationTimeString
 
     val playProgress
-    get() = mediaPlayerManager.currentProgress
+        get() = MediaPlayerManager.currentProgress
 
     val currentPlayInfo
-    get() = mediaPlayerManager.currentMusicInfo
-
-    val playList
-    get() = mediaPlayerManager.getPlayList()
-
-    fun setPlayList(playList: MutableList<ResponseData.MusicInfo>) {
-        mediaPlayerManager.start(playList = playList)
-    }
-
-    fun setPlayTime(progress: Int) {
-        mediaPlayerManager.setPlayTime(progress = progress)
-    }
-
-    fun setCurrentPlayTimeString(progress: Int) {
-        mediaPlayerManager.setCurrentPlayTime(progress = progress)
-    }
-
-    fun addPlayList(musicInfo: ResponseData.MusicInfo) {
-        mediaPlayerManager.add(musicInfo)
-    }
-
-    fun pauseMusic() {
-        mediaPlayerManager.pause()
-    }
-
-    fun resumeMusic() {
-        mediaPlayerManager.resume()
-    }
+        get() = MusicListManager.currentMusicInfo
 }

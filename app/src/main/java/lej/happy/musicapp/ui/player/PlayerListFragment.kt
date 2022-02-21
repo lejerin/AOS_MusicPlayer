@@ -40,13 +40,13 @@ class PlayerListFragment: BaseFragment<FragmentPlayerListBinding>() {
         Log.i("eunjin", "initObserver")
         mMusicPlayViewModel.music.observe(viewLifecycleOwner, {
             // 한 곡 재생
-            mMusicPlayViewModel.playList?.let {
+            mMusicPlayViewModel.mMusicPlayService?.getPlayList().let {
                 playerListAdapter.submitList(it)
             }
         })
         mMusicPlayViewModel.musicList.observe(viewLifecycleOwner, {
             // 여러 곡 재생
-            mMusicPlayViewModel.playList?.let {
+            mMusicPlayViewModel.mMusicPlayService?.getPlayList().let {
                 playerListAdapter.submitList(it)
             }
         })

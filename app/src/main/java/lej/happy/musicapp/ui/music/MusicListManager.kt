@@ -6,6 +6,11 @@ import lej.happy.musicapp.data.ResponseData
 
 open class MusicListManager : IMusicListManger {
 
+    companion object {
+        private val _currentMusicInfo: MutableLiveData<ResponseData.MusicInfo> = MutableLiveData()
+        val currentMusicInfo: LiveData<ResponseData.MusicInfo> = _currentMusicInfo
+    }
+
     private val musicInfoList = mutableListOf<ResponseData.MusicInfo>()
 
     private var currentPlayIndex : Int? = null
@@ -16,8 +21,7 @@ open class MusicListManager : IMusicListManger {
             field = value
         }
 
-    private val _currentMusicInfo: MutableLiveData<ResponseData.MusicInfo> = MutableLiveData()
-    val currentMusicInfo: LiveData<ResponseData.MusicInfo> = _currentMusicInfo
+
 
     override fun setPlayList(newList: MutableList<ResponseData.MusicInfo>) {
         musicInfoList.clear()

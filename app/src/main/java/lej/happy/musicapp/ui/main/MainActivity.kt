@@ -1,14 +1,23 @@
 package lej.happy.musicapp.ui.main
 
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
+import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.happy.commons.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import lej.happy.musicapp.R
 import lej.happy.musicapp.databinding.ActivityMainBinding
+import lej.happy.musicapp.service.MusicPlayService
 import lej.happy.musicapp.ui.music.MediaPlayerManager
+import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
 import lej.happy.musicapp.util.navigationHeight
 import lej.happy.musicapp.util.setStatusBarTransparent
 import lej.happy.musicapp.util.statusBarHeight
@@ -18,8 +27,7 @@ import javax.inject.Inject
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override val layoutResourceId: Int = R.layout.activity_main
 
-    @Inject
-    lateinit var mMediaPlayerManager: MediaPlayerManager
+    private val mMusicPlayViewModel: MusicPlayViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         initNavigation()
         initTransparentSystemBar()
+        bindMusicPlayService()
     }
 
     private fun initTransparentSystemBar() {
@@ -35,15 +44,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             layoutParams = layoutParams.apply {
                 height = this@MainActivity.statusBarHeight()
             }
-            Log.i("eunjin", "height ${layoutParams.height}")
         }
         binding.viewMargin.apply {
             layoutParams = layoutParams.apply {
                 height = this@MainActivity.navigationHeight()
             }
         }
-
-
     }
 
     private fun initNavigation() {
@@ -61,8 +67,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return binding.bnvMain.layoutParams.height
     }
 
+    private fun bindMusicPlayService() {
+        if (mMusicPlayViewModel.mMusicPlayServiceConnection == null) {
+            mMusicPlayViewModel.mMusicPlayServiceConnection = object : ServiceConnection {
+                override fun onServiceConnected(className: ComponentName, service: IBinder) {
+                    val binder = service as MusicPlayService.LocalBinder
+                    mMusicPlayViewModel.mMusicPlayService = binder.getService()
+                }
+                override fun onServiceDisconnected(arg0: ComponentName) {
+
+                }
+            }
+        }
+        Intent(this, MusicPlayService::class.java).also { intent ->
+            bindService(intent, mMusicPlayViewModel.mMusicPlayServiceConnection!!, Context.BIND_AUTO_CREATE)
+        }
+    }
+
     override fun onPause() {
         super.onPause()
-        mMediaPlayerManager.stop()
     }
 }
