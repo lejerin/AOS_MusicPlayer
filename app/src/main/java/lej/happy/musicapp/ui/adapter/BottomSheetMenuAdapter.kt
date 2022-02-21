@@ -18,7 +18,7 @@ class BottomSheetMenuAdapter(private val itemClickAction: (Item) -> Unit) : Recy
         SAVE_MY_LIST
     }
 
-    val items = mutableListOf<Item>(
+    val items = mutableListOf(
         Item.START,
         Item.ADD_LIST,
         Item.SAVE_MY_LIST

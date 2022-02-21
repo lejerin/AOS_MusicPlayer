@@ -1,4 +1,4 @@
-package com.etoos.commons.ui.bindings
+package com.happy.commons.ui.bindings
 
 import android.view.View
 import androidx.databinding.BindingAdapter

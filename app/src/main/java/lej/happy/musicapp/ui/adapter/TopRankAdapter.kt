@@ -1,56 +1,41 @@
 package lej.happy.musicapp.ui.adapter
 
-import android.annotation.SuppressLint
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
+import com.happy.commons.ui.base.BaseListAdapter
 import lej.happy.musicapp.R
 import lej.happy.musicapp.data.ResponseData
 import lej.happy.musicapp.databinding.ItemRvMusicBinding
-import lej.happy.musicapp.databinding.ItemRvNewReleasesBinding
 
-class TopRankAdapter(private val itemClickAction: (ClickMusicListEvent ,ResponseData.MusicInfo) -> Unit) : RecyclerView.Adapter<TopRankAdapter.MainViewHolder>() {
+class TopRankAdapter(private val itemClickAction: (ClickMusicListEvent ,ResponseData.MusicInfo) -> Unit) : BaseListAdapter<ResponseData.MusicInfo,
+        TopRankAdapter.MainViewHolder,
+        ItemRvMusicBinding>(
+    contentsTheSame = { old: ResponseData.MusicInfo, new : ResponseData.MusicInfo ->
+        old.mck == new.mck
+    }
+) {
+    override val layoutResourceId: Int = R.layout.item_rv_music
+    override val action: (ItemRvMusicBinding) -> TopRankAdapter.MainViewHolder = { MainViewHolder(it) }
 
-    val items = mutableListOf<ResponseData.MusicInfo>()
 
     enum class ClickMusicListEvent {
         PLAY,
         MORE
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        DataBindingUtil.inflate<ItemRvMusicBinding>(
-            LayoutInflater.from(parent.context),
-            R.layout.item_rv_music,
-            parent,
-            false
-        ).let { MainViewHolder(it) }
-
-    override fun getItemCount(): Int {
-        return items.size
-    }
-
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) =
-        holder.bind(items[position])
-
-    @SuppressLint("ClickableViewAccessibility")
     inner class MainViewHolder(private val binding: ItemRvMusicBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+        BaseViewHolder(binding) {
 
-        init {
-            binding.root.setOnClickListener {
-                itemClickAction.invoke(ClickMusicListEvent.PLAY, items[adapterPosition])
-            }
-            binding.ivMoreInfo.setOnClickListener {
-                itemClickAction.invoke(ClickMusicListEvent.MORE, items[adapterPosition])
-            }
-        }
-
-        fun bind(item: ResponseData.MusicInfo) {
-            binding.apply {
-                musicInfo = item
-                executePendingBindings()
+        override fun onBind(item: Any?) {
+            (item as? ResponseData.MusicInfo)?.let {
+                binding.apply {
+                    musicInfo = item
+                    root.setOnClickListener {
+                        itemClickAction.invoke(ClickMusicListEvent.PLAY, currentList[adapterPosition])
+                    }
+                    ivMoreInfo.setOnClickListener {
+                        itemClickAction.invoke(ClickMusicListEvent.MORE, currentList[adapterPosition])
+                    }
+                    executePendingBindings()
+                }
             }
         }
     }

@@ -1,10 +1,9 @@
 package lej.happy.musicapp.ui.main.home
 
-import android.content.Intent
 import android.util.Log
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.happy.commons.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,9 +15,7 @@ import lej.happy.musicapp.databinding.FragmentHomeBinding
 import lej.happy.musicapp.ui.adapter.BottomSheetMenuAdapter
 import lej.happy.musicapp.ui.adapter.NewReleasesAdapter
 import lej.happy.musicapp.ui.adapter.TopRankAdapter
-import lej.happy.musicapp.ui.base.BaseFragment
 import lej.happy.musicapp.ui.player.PlayMoreDialog
-import lej.happy.musicapp.ui.player.PlayerFragment
 import lej.happy.musicapp.ui.viewmodel.MusicInfoViewModel
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
 
@@ -56,14 +53,19 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    override fun initBinding() {
+    override fun initUi() {
         initRecyclerView()
+    }
+
+    override fun setupObservers() {
         initObserver()
+    }
+
+    override fun initData() {
         mMusicInfoViewModel.fetchDataResponse()
     }
 
     private fun startMusic(item: ResponseData.MusicInfo) {
-        Log.i("eunjin", "start $item")
         mMusicPlayViewModel.music.value = item
     }
 
@@ -74,8 +76,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                     response.data?.let {
                         if (it.result) {
                             CoroutineScope(Dispatchers.Main).launch {
-                                newReleasesAdapter.items.addAll(it.data)
-                                newReleasesAdapter.notifyDataSetChanged()
+                                newReleasesAdapter.submitList(it.data)
                             }
                         }
                     }
@@ -94,9 +95,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                     response.data?.let {
                         if (it.result) {
                             CoroutineScope(Dispatchers.Main).launch {
-                                topRankAdapter.items.addAll(it.data)
-                                topRankAdapter.notifyDataSetChanged()
-                                Log.i("eunjin", "value2 ${it.data}")
+                                topRankAdapter.submitList(it.data)
                                 mMusicPlayViewModel.music.value = it.data[0]
                             }
                         }

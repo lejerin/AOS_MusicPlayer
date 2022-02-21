@@ -1,31 +1,22 @@
 package lej.happy.musicapp.ui.main
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.happy.commons.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import lej.happy.musicapp.R
 import lej.happy.musicapp.databinding.ActivityMainBinding
-import lej.happy.musicapp.ui.base.BaseActivity
 import lej.happy.musicapp.ui.music.MediaPlayerManager
-import lej.happy.musicapp.ui.player.PlayerFragment
 import lej.happy.musicapp.util.navigationHeight
 import lej.happy.musicapp.util.setStatusBarTransparent
 import lej.happy.musicapp.util.statusBarHeight
 import javax.inject.Inject
-import kotlin.math.abs
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity() {
-
-    private val binding: ActivityMainBinding by binding(R.layout.activity_main)
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+    override val layoutResourceId: Int = R.layout.activity_main
 
     @Inject
     lateinit var mMediaPlayerManager: MediaPlayerManager

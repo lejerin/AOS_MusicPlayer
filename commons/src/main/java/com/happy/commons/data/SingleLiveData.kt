@@ -1,10 +1,10 @@
-package com.etoos.commons.data
+package com.happy.commons.data
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.etoos.commons.utils.Logger
+import com.happy.commons.utils.Logger
 import java.util.concurrent.atomic.AtomicBoolean
 
 class SingleLiveData<T> : MutableLiveData<T>() {

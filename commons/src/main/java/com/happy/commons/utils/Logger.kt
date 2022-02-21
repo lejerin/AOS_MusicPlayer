@@ -1,4 +1,4 @@
-package com.etoos.commons.utils
+package com.happy.commons.utils
 
 import android.annotation.SuppressLint
 import android.util.Log

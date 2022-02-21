@@ -1,7 +1,6 @@
-package com.etoos.commons.ui.base
+package com.happy.commons.ui.base
 
 import android.os.Bundle
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -24,7 +23,6 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
         binding.unbind()
         super.onDestroy()
     }
-
 
     /* bundle, intent 처리 및 기본값 초기화 */
     open fun initData() = Unit

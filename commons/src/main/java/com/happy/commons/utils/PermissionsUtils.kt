@@ -1,4 +1,4 @@
-package com.etoos.commons.utils
+package com.happy.commons.utils
 
 import android.content.Context
 import android.content.pm.PackageManager

@@ -1,4 +1,4 @@
-package com.etoos.commons.ui.base
+package com.happy.commons.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -26,9 +26,9 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initData()
         initUi()
         setupObservers()
+        initData()
     }
 
     /**액티비티에 붙어있는지 확인하거나, 람다식으로 실행할 코드가 있을 경우*/

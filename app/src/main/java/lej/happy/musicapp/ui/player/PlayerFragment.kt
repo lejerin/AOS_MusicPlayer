@@ -1,35 +1,21 @@
 package lej.happy.musicapp.ui.player
 
-import android.R.attr
 import android.os.Build
 import android.util.Log
-import android.view.DragEvent
 import android.view.View
 import android.widget.SeekBar
 import androidx.constraintlayout.motion.widget.MotionLayout
-import androidx.core.content.ContextCompat.getColor
-import androidx.core.view.marginBottom
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import lej.happy.musicapp.R
 import lej.happy.musicapp.databinding.FragmentPlayerBinding
-import lej.happy.musicapp.ui.base.BaseFragment
 import lej.happy.musicapp.ui.main.MainActivity
 import lej.happy.musicapp.ui.music.MediaPlayerManager
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
 import lej.happy.musicapp.util.navigationHeight
-import lej.happy.musicapp.util.statusBarHeight
-import kotlin.math.abs
-import android.R.attr.right
-
-import android.R.attr.left
-import android.transition.Transition
-import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-
+import com.happy.commons.ui.base.BaseFragment
 
 @AndroidEntryPoint
 class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
@@ -37,12 +23,18 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
 
     private val mMusicPlayViewModel: MusicPlayViewModel by activityViewModels()
 
-    override fun initBinding() {
-        binding.btnDummy.setOnClickListener {
-        }
+    override fun initUi() {
         initView()
         initMotionLayout()
+        binding.btnDummy.setOnClickListener { }
+    }
+
+    override fun setupObservers() {
         initObserver()
+    }
+
+    override fun initData() {
+
     }
 
     private fun initView() {

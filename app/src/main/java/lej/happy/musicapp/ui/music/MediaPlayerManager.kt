@@ -2,19 +2,15 @@ package lej.happy.musicapp.ui.music
 
 import android.media.AudioManager
 import android.media.MediaPlayer
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import com.happy.commons.data.SingleLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import lej.happy.musicapp.data.ResponseData
-import lej.happy.musicapp.data.SingleLiveEvent
 import lej.happy.musicapp.util.TimeUtils
-import java.lang.String.format
-import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,7 +24,7 @@ class MediaPlayerManager @Inject constructor() : MusicListManager(), IMediaPlaye
         STOP
     }
 
-    val musicEvent: SingleLiveEvent<MusicEvent> = SingleLiveEvent()
+    val musicEvent: SingleLiveData<MusicEvent> = SingleLiveData()
 
     /** 음악 변경될 때마다 이벤트 전달 */
     private val _duration: MutableLiveData<Int?> = MutableLiveData()
