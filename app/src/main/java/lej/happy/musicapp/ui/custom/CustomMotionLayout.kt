@@ -22,7 +22,7 @@ class CustomMotionLayout(context: Context, attributes: AttributeSet? = null) :
 
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return super.onTouchEvent(event) || getValidSwipe(event)
+        return super.onTouchEvent(event) && getValidSwipe(event)
     }
 
     private fun getValidSwipe(e1: MotionEvent) : Boolean {
