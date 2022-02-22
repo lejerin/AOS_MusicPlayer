@@ -1,22 +1,20 @@
 package lej.happy.musicapp.ui.music
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.happy.commons.data.ListLiveData
 import lej.happy.musicapp.data.ResponseData
 
 open class MusicListManager : IMusicListManger {
 
     companion object {
-        private val _currentMusicInfo: MutableLiveData<ResponseData.MusicInfo> = MutableLiveData()
-        val currentMusicInfo: LiveData<ResponseData.MusicInfo> = _currentMusicInfo
+        val currentMusicInfo: MutableLiveData<ResponseData.MusicInfo> = MutableLiveData()
+        val musicInfoList =  ListLiveData<ResponseData.MusicInfo>()
     }
-
-    private val musicInfoList = mutableListOf<ResponseData.MusicInfo>()
 
     private var currentPlayIndex : Int? = null
         set(value) {
             value?.let {
-                _currentMusicInfo.value = musicInfoList[it]
+                currentMusicInfo.value = musicInfoList.value?.get(it)
             }
             field = value
         }
@@ -24,9 +22,8 @@ open class MusicListManager : IMusicListManger {
 
 
     override fun setPlayList(newList: MutableList<ResponseData.MusicInfo>) {
-        musicInfoList.clear()
-        musicInfoList.addAll(newList)
-        currentPlayIndex = if (musicInfoList.isNotEmpty()) {
+        musicInfoList.clearAndAddAll(newList)
+        currentPlayIndex = if (musicInfoList.value?.isNotEmpty() == true) {
             0
         } else {
             null
@@ -34,7 +31,7 @@ open class MusicListManager : IMusicListManger {
     }
 
     override fun getPlayList(): List<ResponseData.MusicInfo>? {
-        return if (musicInfoList.isNotEmpty()) musicInfoList.toList() else null
+        return if (musicInfoList.value?.isNotEmpty() == true) musicInfoList.value?.toList() else null
     }
 
     override fun add(musicInfo: ResponseData.MusicInfo) {

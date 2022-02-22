@@ -14,16 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MusicPlayViewModel @Inject constructor() : ViewModel() {
 
-    /** Service */
-    @SuppressLint("StaticFieldLeak")
-    var mMusicPlayService: MusicPlayService? = null
-    var mMusicPlayServiceConnection: ServiceConnection? = null
-
-    val music: MutableLiveData<ResponseData.MusicInfo> = MutableLiveData()
-    val musicList: MutableLiveData<ArrayList<ResponseData.MusicInfo>> = MutableLiveData()
-
     // XML 위한 LiveData
-
     val musicEvent
         get() = MediaPlayerManager.musicEvent
 

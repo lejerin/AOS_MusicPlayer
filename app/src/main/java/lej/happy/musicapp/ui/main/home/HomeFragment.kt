@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import lej.happy.musicapp.R
 import lej.happy.musicapp.data.ResponseData
+import lej.happy.musicapp.data.mMusicPlayService
 import lej.happy.musicapp.data.remote.NetworkResult
 import lej.happy.musicapp.databinding.FragmentHomeBinding
 import lej.happy.musicapp.ui.adapter.NewReleasesAdapter
@@ -40,7 +41,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                             startMusic(item)
                         }
                         PlayMoreDialog.Item.ADD_LIST -> {
-                            mMusicPlayViewModel.mMusicPlayService?.addPlayList(item)
+                            mMusicPlayService?.addPlayList(item)
                         }
                         PlayMoreDialog.Item.SAVE_MY_LIST -> {
 
@@ -71,7 +72,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun startMusic(item: ResponseData.MusicInfo) {
-        mMusicPlayViewModel.music.value = item
+        mMusicPlayService?.setPlayList(mutableListOf(item))
     }
 
     private fun initObserver() {
@@ -101,7 +102,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                         if (it.result) {
                             CoroutineScope(Dispatchers.Main).launch {
                                 topRankAdapter.submitList(it.data)
-                                mMusicPlayViewModel.music.value = it.data[0]
                             }
                         }
                     }

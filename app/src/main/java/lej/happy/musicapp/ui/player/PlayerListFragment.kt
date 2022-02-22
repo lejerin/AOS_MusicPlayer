@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.happy.commons.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import lej.happy.musicapp.R
+import lej.happy.musicapp.data.mMusicPlayService
 import lej.happy.musicapp.databinding.FragmentPlayerListBinding
 import lej.happy.musicapp.ui.adapter.PlayerListAdapter
+import lej.happy.musicapp.ui.music.MusicListManager
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
 
 @AndroidEntryPoint
@@ -37,18 +39,8 @@ class PlayerListFragment: BaseFragment<FragmentPlayerListBinding>() {
     }
 
     private fun initObserver() {
-        Log.i("eunjin", "initObserver")
-        mMusicPlayViewModel.music.observe(viewLifecycleOwner, {
-            // 한 곡 재생
-            mMusicPlayViewModel.mMusicPlayService?.getPlayList().let {
-                playerListAdapter.submitList(it)
-            }
-        })
-        mMusicPlayViewModel.musicList.observe(viewLifecycleOwner, {
-            // 여러 곡 재생
-            mMusicPlayViewModel.mMusicPlayService?.getPlayList().let {
-                playerListAdapter.submitList(it)
-            }
+        MusicListManager.musicInfoList.observe(viewLifecycleOwner, {
+            playerListAdapter.submitList(it.toMutableList())
         })
     }
 }

@@ -14,6 +14,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.happy.commons.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import lej.happy.musicapp.R
+import lej.happy.musicapp.data.mMusicPlayService
+import lej.happy.musicapp.data.mMusicPlayServiceConnection
 import lej.happy.musicapp.databinding.ActivityMainBinding
 import lej.happy.musicapp.service.MusicPlayService
 import lej.happy.musicapp.ui.music.MediaPlayerManager
@@ -26,8 +28,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override val layoutResourceId: Int = R.layout.activity_main
-
-    private val mMusicPlayViewModel: MusicPlayViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,11 +68,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun bindMusicPlayService() {
-        if (mMusicPlayViewModel.mMusicPlayServiceConnection == null) {
-            mMusicPlayViewModel.mMusicPlayServiceConnection = object : ServiceConnection {
+        if (mMusicPlayServiceConnection == null) {
+            mMusicPlayServiceConnection = object : ServiceConnection {
                 override fun onServiceConnected(className: ComponentName, service: IBinder) {
                     val binder = service as MusicPlayService.LocalBinder
-                    mMusicPlayViewModel.mMusicPlayService = binder.getService()
+                    mMusicPlayService = binder.getService()
                 }
                 override fun onServiceDisconnected(arg0: ComponentName) {
 
@@ -80,7 +80,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
         }
         Intent(this, MusicPlayService::class.java).also { intent ->
-            bindService(intent, mMusicPlayViewModel.mMusicPlayServiceConnection!!, Context.BIND_AUTO_CREATE)
+            bindService(intent, mMusicPlayServiceConnection!!, Context.BIND_AUTO_CREATE)
         }
     }
 

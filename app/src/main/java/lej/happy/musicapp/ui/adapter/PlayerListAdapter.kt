@@ -10,6 +10,9 @@ class PlayerListAdapter(private val itemClickAction: (ResponseData.MusicInfo) ->
     BaseListAdapter<ResponseData.MusicInfo,
             PlayerListAdapter.MainViewHolder,
             ItemRvPlayListBinding>(
+        itemsTheSame = { old: ResponseData.MusicInfo, new : ResponseData.MusicInfo ->
+            old.mck == new.mck
+        },
         contentsTheSame = { old: ResponseData.MusicInfo, new : ResponseData.MusicInfo ->
             old.mck == new.mck
         }

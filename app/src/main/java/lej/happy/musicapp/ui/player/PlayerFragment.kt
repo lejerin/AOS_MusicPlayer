@@ -16,6 +16,7 @@ import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
 import lej.happy.musicapp.util.navigationHeight
 import androidx.constraintlayout.widget.ConstraintSet
 import com.happy.commons.ui.base.BaseFragment
+import lej.happy.musicapp.data.mMusicPlayService
 
 @AndroidEntryPoint
 class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
@@ -44,15 +45,15 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    mMusicPlayViewModel.mMusicPlayService?.setCurrentPlayTimeString(progress)
+                    mMusicPlayService?.setCurrentPlayTimeString(progress)
                 }
             }
             override fun onStartTrackingTouch(p0: SeekBar?) {
-                mMusicPlayViewModel.mMusicPlayService?.mediaPlayerManager?.changingSeekBarProgress = true
+                mMusicPlayService?.mediaPlayerManager?.changingSeekBarProgress = true
             }
             override fun onStopTrackingTouch(p0: SeekBar?) {
-                p0?.progress?.let { mMusicPlayViewModel.mMusicPlayService?.setPlayTime(it) }
-                mMusicPlayViewModel.mMusicPlayService?.mediaPlayerManager?.changingSeekBarProgress = false
+                p0?.progress?.let { mMusicPlayService?.setPlayTime(it) }
+                mMusicPlayService?.mediaPlayerManager?.changingSeekBarProgress = false
             }
         })
     }
@@ -134,9 +135,9 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         changeSelectedView(binding.btnPlay)
         changeSelectedView(binding.ivSmallPlay)
         if (view.isSelected) {
-            mMusicPlayViewModel.mMusicPlayService?.pauseMusic()
+            mMusicPlayService?.pauseMusic()
         } else {
-            mMusicPlayViewModel.mMusicPlayService?.resumeMusic()
+            mMusicPlayService?.resumeMusic()
         }
     }
 
@@ -161,27 +162,17 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     }
 
     private fun initObserver() {
-        Log.i("eunjin", "initObserver")
         mMusicPlayViewModel.musicEvent.observe(viewLifecycleOwner, {
             when (it) {
                 MediaPlayerManager.MusicEvent.START -> {
                     // UI 작업
-                    Log.i("eunjin", "play")
                 }
             }
-        })
-        mMusicPlayViewModel.music.observe(viewLifecycleOwner, {
-            // 한 곡 재생
-            it?.let { mMusicPlayViewModel.mMusicPlayService?.setPlayList(mutableListOf(it)) }
-        })
-        mMusicPlayViewModel.musicList.observe(viewLifecycleOwner, {
-            // 여러 곡 재생
-            it?.let { mMusicPlayViewModel.mMusicPlayService?.setPlayList(it) }
         })
     }
 
     override fun onPause() {
         super.onPause()
-        mMusicPlayViewModel.mMusicPlayService?.mediaPlayerManager?.pause()
+        mMusicPlayService?.mediaPlayerManager?.pause()
     }
 }
