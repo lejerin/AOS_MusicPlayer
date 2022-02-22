@@ -89,15 +89,17 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
             }
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-
-                if (currentId == R.id.floating) {
-
-                    binding.mlPlayer.cancelLongPress()
-                    binding.mlPlayer.clearAnimation()
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
+                when(currentId) {
+                    R.id.floating -> {
+                        (activity as? MainActivity)?.also { mainActivity ->
+                            mainActivity.setMotionProgress(0f)
+                        }
                     }
-                    Log.i("eunjin", "current Id")
+                    R.id.unfloating -> {
+                        (activity as? MainActivity)?.also { mainActivity ->
+                            mainActivity.setMotionProgress(1f)
+                        }
+                    }
                 }
             }
 
