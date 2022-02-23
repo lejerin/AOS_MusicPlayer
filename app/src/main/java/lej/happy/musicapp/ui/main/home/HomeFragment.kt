@@ -41,7 +41,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
                             startMusic(item)
                         }
                         PlayMoreDialog.Item.ADD_LIST -> {
-                            mMusicPlayService?.addPlayList(item)
+                            mMusicPlayService?.mediaPlayerManager?.add(item)
                         }
                         PlayMoreDialog.Item.SAVE_MY_LIST -> {
 
@@ -72,7 +72,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun startMusic(item: ResponseData.MusicInfo) {
-        mMusicPlayService?.setPlayList(mutableListOf(item))
+        mMusicPlayService?.mediaPlayerManager?.setPlayList(mutableListOf(item))
     }
 
     private fun initObserver() {

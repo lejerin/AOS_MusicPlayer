@@ -40,32 +40,4 @@ class MusicPlayService : LifecycleService() {
             mediaPlayerManager.play(mck = it.mck)
         })
     }
-
-    fun setPlayList(playList: MutableList<ResponseData.MusicInfo>) {
-        mediaPlayerManager.start(playList = playList)
-    }
-
-    fun movePlay(requestPlay: ResponseData.MusicInfo) {
-        mediaPlayerManager.movePlay(requestMusic = requestPlay)
-    }
-
-    fun setPlayTime(progress: Int) {
-        mediaPlayerManager.setPlayTime(progress = progress)
-    }
-
-    fun setCurrentPlayTimeString(progress: Int) {
-        mediaPlayerManager.setCurrentPlayTime(progress = progress)
-    }
-
-    fun addPlayList(musicInfo: ResponseData.MusicInfo) {
-        mediaPlayerManager.add(musicInfo)
-    }
-
-    fun pauseMusic() {
-        mediaPlayerManager.pause()
-    }
-
-    fun resumeMusic() {
-        mediaPlayerManager.resume()
-    }
 }

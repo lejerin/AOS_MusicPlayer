@@ -5,7 +5,9 @@ import lej.happy.musicapp.data.ResponseData
 interface IMusicListManger {
 
     fun setPlayList(newList: MutableList<ResponseData.MusicInfo>)
-    fun movePlay(requestMusic: ResponseData.MusicInfo)
+    fun play(requestMusic: ResponseData.MusicInfo)
+    fun playNext()
+    fun playPrev()
     fun getPlayList() : List<ResponseData.MusicInfo>?
     fun add(musicInfo: ResponseData.MusicInfo)
     fun add(addList: MutableList<ResponseData.MusicInfo>)

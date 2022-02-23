@@ -271,6 +271,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="10dp"
+                android:onClick="@{fragment::onClickPrevButton}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_play"
                 app:layout_constraintHorizontal_bias="0.7"

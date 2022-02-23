@@ -1,7 +1,5 @@
 package lej.happy.musicapp.ui.player
 
-import android.os.Build
-import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -45,14 +43,14 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
-                    mMusicPlayService?.setCurrentPlayTimeString(progress)
+                    mMusicPlayService?.mediaPlayerManager?.setCurrentPlayTime(progress)
                 }
             }
             override fun onStartTrackingTouch(p0: SeekBar?) {
                 mMusicPlayService?.mediaPlayerManager?.changingSeekBarProgress = true
             }
             override fun onStopTrackingTouch(p0: SeekBar?) {
-                p0?.progress?.let { mMusicPlayService?.setPlayTime(it) }
+                p0?.progress?.let { mMusicPlayService?.mediaPlayerManager?.setPlayTime(it) }
                 mMusicPlayService?.mediaPlayerManager?.changingSeekBarProgress = false
             }
         })
@@ -126,46 +124,64 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         }
     }
 
+    fun onClickPrevButton(view: View) {
+        mMusicPlayService?.mediaPlayerManager?.playPrev()
+    }
+
     fun onClickNextButton(view: View) {
-        Log.i("eunjin", "setOnClickListener onClickNextButton")
+        mMusicPlayService?.mediaPlayerManager?.playNext()
     }
 
     fun onClickPlayButton(view: View) {
-        Log.i("eunjin", "setOnClickListener onClickPlayButton")
-        changeSelectedView(binding.btnPlay)
-        changeSelectedView(binding.ivSmallPlay)
+        changePlayButtonSelectState(!view.isSelected)
         if (view.isSelected) {
-            mMusicPlayService?.pauseMusic()
+            mMusicPlayService?.mediaPlayerManager?.pause()
         } else {
-            mMusicPlayService?.resumeMusic()
+            mMusicPlayService?.mediaPlayerManager?.resume()
         }
     }
 
     fun onClickUnlikeButton(view: View) {
-        changeSelectedView(view)
+        toggleSelectedView(view)
     }
 
     fun onClickLikeButton(view: View) {
-        changeSelectedView(view)
+        toggleSelectedView(view)
     }
 
     fun onClickLoopButton(view: View) {
-        changeSelectedView(view)
+        toggleSelectedView(view)
     }
 
     fun onClickRandomButton(view: View) {
-        changeSelectedView(view)
+        toggleSelectedView(view)
     }
 
-    private fun changeSelectedView(view: View) {
+    private fun toggleSelectedView(view: View) {
         view.isSelected = !view.isSelected
+    }
+
+    private fun changePlayButtonSelectState(isSelected: Boolean) {
+        if (binding.btnPlay.isSelected != isSelected) {
+            binding.btnPlay.isSelected = isSelected
+            binding.btnPlay.isSelected = isSelected
+        }
     }
 
     private fun initObserver() {
         mMusicPlayViewModel.musicEvent.observe(viewLifecycleOwner, {
             when (it) {
-                MediaPlayerManager.MusicEvent.START -> {
-                    // UI 작업
+                MediaPlayerManager.MusicEvent.PLAY,
+                MediaPlayerManager.MusicEvent.RESUME
+                -> {
+                    changePlayButtonSelectState(false)
+                }
+                MediaPlayerManager.MusicEvent.PAUSE,
+                MediaPlayerManager.MusicEvent.STOP -> {
+                    changePlayButtonSelectState(true)
+                }
+                else -> {
+
                 }
             }
         })

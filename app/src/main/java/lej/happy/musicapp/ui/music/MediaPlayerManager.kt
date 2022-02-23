@@ -34,7 +34,7 @@ class MediaPlayerManager : MusicListManager(), IMediaPlayerManager {
     }
 
     enum class MusicEvent {
-        START,
+        PLAY,
         RESUME,
         PAUSE,
         STOP
@@ -51,7 +51,7 @@ class MediaPlayerManager : MusicListManager(), IMediaPlayerManager {
                 _duration.postValue(mp.duration)
                 _currentPosition.postValue(0)
                 _currentProgress.postValue(0)
-                musicEvent.postValue(MusicEvent.START)
+                musicEvent.postValue(MusicEvent.PLAY)
             })
         }
     }
