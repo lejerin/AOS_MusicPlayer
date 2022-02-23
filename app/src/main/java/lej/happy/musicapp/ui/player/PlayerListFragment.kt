@@ -17,10 +17,8 @@ class PlayerListFragment: BaseFragment<FragmentPlayerListBinding>() {
 
     override val layoutResourceId = R.layout.fragment_player_list
 
-    private val mMusicPlayViewModel: MusicPlayViewModel by activityViewModels()
-
     private val playerListAdapter = PlayerListAdapter {
-
+        mMusicPlayService?.movePlay(it)
     }
 
     override fun initUi() {

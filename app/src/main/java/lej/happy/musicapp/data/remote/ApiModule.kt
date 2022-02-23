@@ -22,7 +22,7 @@ object ApiModule {
     private val TAG = ApiModule::class.java.simpleName
 
     private const val BASE_URL = "https://happyweatherapp.herokuapp.com/music/"
-    private val timeout : Long = 30
+    private val timeout : Long = 300
 
     @Singleton
     @Provides

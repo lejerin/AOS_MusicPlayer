@@ -78,13 +78,14 @@ class MediaPlayerManager : MusicListManager(), IMediaPlayerManager {
     }
 
     override fun start(playList: MutableList<ResponseData.MusicInfo>) {
-        initLiveData()
-        mediaPlayer.reset()
         setPlayList(playList)
-        currentMusicInfo.value?.mck?.let {
-            mediaPlayer.setDataSource("https://happyweatherapp.herokuapp.com/music/play?mck=${it}")
-            mediaPlayer.prepareAsync()
-        }
+    }
+
+    override fun play(mck: Int) {
+        mediaPlayer.reset()
+        initLiveData()
+        mediaPlayer.setDataSource("https://happyweatherapp.herokuapp.com/music/play?mck=$mck")
+        mediaPlayer.prepareAsync()
     }
 
     override fun setPlayTime(progress: Int) {

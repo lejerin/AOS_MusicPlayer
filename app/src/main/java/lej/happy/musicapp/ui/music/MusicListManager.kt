@@ -30,6 +30,12 @@ open class MusicListManager : IMusicListManger {
         }
     }
 
+    override fun movePlay(requestMusic: ResponseData.MusicInfo) {
+        musicInfoList.value?.indexOf(requestMusic)?.let { findIndex ->
+            currentPlayIndex = findIndex
+        }
+    }
+
     override fun getPlayList(): List<ResponseData.MusicInfo>? {
         return if (musicInfoList.value?.isNotEmpty() == true) musicInfoList.value?.toList() else null
     }

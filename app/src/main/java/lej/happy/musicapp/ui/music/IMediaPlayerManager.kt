@@ -4,6 +4,7 @@ import lej.happy.musicapp.data.ResponseData
 
 interface IMediaPlayerManager {
     fun start(playList: MutableList<ResponseData.MusicInfo>)
+    fun play(mck: Int)
     fun stop()
     fun pause()
     fun resume()

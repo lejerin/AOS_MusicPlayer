@@ -1,25 +1,30 @@
 package lej.happy.musicapp.service
 
-import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
+import androidx.lifecycle.LifecycleService
 import lej.happy.musicapp.data.ResponseData
 import lej.happy.musicapp.ui.music.MediaPlayerManager
+import lej.happy.musicapp.ui.music.MusicListManager
 
-class MusicPlayService : Service() {
+class MusicPlayService : LifecycleService() {
 
     private val binder = LocalBinder()
     inner class LocalBinder : Binder() {
         fun getService(): MusicPlayService = this@MusicPlayService
     }
 
-    override fun onBind(intent: Intent?): IBinder = binder
+    override fun onBind(intent: Intent): IBinder {
+        super.onBind(intent)
+        return binder
+    }
 
     var mediaPlayerManager = MediaPlayerManager()
 
     override fun onCreate() {
         super.onCreate()
+        initObserver()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -30,8 +35,18 @@ class MusicPlayService : Service() {
         super.onDestroy()
     }
 
+    private fun initObserver() {
+        MusicListManager.currentMusicInfo.observe(this@MusicPlayService, {
+            mediaPlayerManager.play(mck = it.mck)
+        })
+    }
+
     fun setPlayList(playList: MutableList<ResponseData.MusicInfo>) {
         mediaPlayerManager.start(playList = playList)
+    }
+
+    fun movePlay(requestPlay: ResponseData.MusicInfo) {
+        mediaPlayerManager.movePlay(requestMusic = requestPlay)
     }
 
     fun setPlayTime(progress: Int) {
@@ -45,8 +60,6 @@ class MusicPlayService : Service() {
     fun addPlayList(musicInfo: ResponseData.MusicInfo) {
         mediaPlayerManager.add(musicInfo)
     }
-
-    fun getPlayList() = mediaPlayerManager.getPlayList()
 
     fun pauseMusic() {
         mediaPlayerManager.pause()
