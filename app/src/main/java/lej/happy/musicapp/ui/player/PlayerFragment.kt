@@ -1,5 +1,6 @@
 package lej.happy.musicapp.ui.player
 
+import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -56,24 +57,13 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
         })
     }
 
+    var isListOpened = false
 
     private fun initMotionLayout() {
         binding.mlPlayer.getConstraintSet(R.id.floating)?.setMargin(R.id.cl_small_view, ConstraintSet.BOTTOM, requireContext().navigationHeight() + (activity as MainActivity).getNavigationHeight())
         binding.mlPlayer.setTransitionListener(object : MotionLayout.TransitionListener {
-            override fun onTransitionStarted(
-                motionLayout: MotionLayout?,
-                startId: Int,
-                endId: Int
-            ) {
-
-            }
-
-            override fun onTransitionChange(
-                motionLayout: MotionLayout?,
-                startId: Int,
-                endId: Int,
-                progress: Float
-            ) {
+            override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) { }
+            override fun onTransitionChange(motionLayout: MotionLayout?, startId: Int, endId: Int, progress: Float) {
                 when {
                     (startId == R.id.floating && endId == R.id.unfloating) or
                             (endId == R.id.floating && startId == R.id.unfloating) -> {
@@ -82,12 +72,11 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                         }
                     }
                     else -> {
-
                     }
                 }
             }
-
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
+                Log.i("eunjin", "onTransitionCompleted currentId $currentId ${R.id.list == currentId}")
                 when(currentId) {
                     R.id.floating -> {
                         (activity as? MainActivity)?.also { mainActivity ->
@@ -98,19 +87,14 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
                         (activity as? MainActivity)?.also { mainActivity ->
                             mainActivity.setMotionProgress(1f)
                         }
+                        isListOpened = false
+                    }
+                    R.id.list -> {
+                        isListOpened = true
                     }
                 }
             }
-
-            override fun onTransitionTrigger(
-                motionLayout: MotionLayout?,
-                triggerId: Int,
-                positive: Boolean,
-                progress: Float
-            ) {
-
-            }
-
+            override fun onTransitionTrigger(motionLayout: MotionLayout?, triggerId: Int, positive: Boolean, progress: Float) { }
         })
     }
 
@@ -133,6 +117,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     }
 
     fun onClickPlayButton(view: View) {
+        Log.i("eunjin", "onClickPlayButton")
         changePlayButtonSelectState(!view.isSelected)
         if (view.isSelected) {
             mMusicPlayService?.mediaPlayerManager?.pause()
@@ -164,7 +149,7 @@ class PlayerFragment : BaseFragment<FragmentPlayerBinding>() {
     private fun changePlayButtonSelectState(isSelected: Boolean) {
         if (binding.btnPlay.isSelected != isSelected) {
             binding.btnPlay.isSelected = isSelected
-            binding.btnPlay.isSelected = isSelected
+            binding.ivSmallPlay.isSelected = isSelected
         }
     }
 

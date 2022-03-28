@@ -5,18 +5,27 @@
 
     <ConstraintSet android:id="@+id/unfloating">
         <Constraint android:id="@+id/ll_sliding"
-            android:layout_height="110dp"
+            android:layout_height="70dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="0dp"
+            android:layout_marginBottom="40dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginEnd="0dp"
             app:layout_constraintEnd_toEndOf="parent" />
+        <Constraint android:id="@+id/view_sliding_background"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="@color/purple_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_sliding" />
         <Constraint android:id="@+id/fcv_player_list"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/ll_sliding"
             android:layout_width="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/ll_sliding" />
+            app:layout_constraintTop_toBottomOf="@+id/ll_sliding"
+            android:alpha="0"/>
         <Constraint android:id="@+id/cl_top_view"
             android:layout_width="match_parent"
             android:layout_height="80dp"
@@ -55,17 +64,23 @@
 
     <ConstraintSet android:id="@+id/floating">
         <Constraint android:id="@+id/ll_sliding"
-            android:layout_height="110dp"
-            app:layout_constraintTop_toBottomOf="parent"
             android:layout_width="0dp"
+            android:layout_height="110dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+        <Constraint android:id="@+id/view_sliding_background"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="@color/purple_500"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginEnd="0dp"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/ll_sliding"  />
         <Constraint android:id="@+id/fcv_player_list"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/ll_sliding"
-            android:layout_width="0dp"
             app:layout_constraintTop_toBottomOf="@+id/ll_sliding" />
         <Constraint android:id="@+id/cl_top_view"
             android:layout_width="match_parent"
@@ -128,21 +143,28 @@
             android:alpha="0"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp" />
-        <Constraint
+        <Constraint android:id="@+id/ll_sliding"
             android:layout_height="70dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/cl_top_view"
-            android:id="@+id/ll_sliding" />
+            app:layout_constraintTop_toBottomOf="@+id/cl_top_view" />
         <Constraint
+            android:id="@+id/fcv_player_list"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/ll_sliding"
+            android:alpha="1"
             android:layout_width="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/ll_sliding"
-            android:id="@+id/fcv_player_list" />
+            app:layout_constraintTop_toBottomOf="@+id/ll_sliding" />
+        <Constraint android:id="@+id/view_sliding_background"
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:background="@color/purple_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_sliding" />
         <Constraint
             android:id="@+id/img_album_cover"
             android:layout_width="0dp"
@@ -159,7 +181,8 @@
     <Transition
         android:id="@+id/transition_floating_small_view"
         app:maxAcceleration="40"
-        app:motionInterpolator="linear"
+        app:motionInterpolator="easeInOut"
+        app:duration="250"
         app:constraintSetStart="@+id/floating"
         app:constraintSetEnd="@+id/unfloating">
         <OnSwipe
@@ -193,9 +216,10 @@
         </KeyFrameSet>
     </Transition>
     <Transition
-        app:maxAcceleration="40"
         android:id="@+id/transition_floating_entire"
-        app:motionInterpolator="linear"
+        app:maxAcceleration="40"
+        app:motionInterpolator="easeInOut"
+        app:duration="250"
         app:constraintSetStart="@+id/floating"
         app:constraintSetEnd="@+id/unfloating">
         <OnSwipe
@@ -215,10 +239,24 @@
                 app:motionTarget="@+id/cl_default"
                 app:framePosition="80"
                 android:alpha="0" />
+            <KeyPosition
+                app:motionTarget="@+id/cl_default"
+                app:framePosition="80"
+                app:keyPositionType="deltaRelative"
+                app:percentX="1"
+                app:percentY="1" />
+            <KeyPosition
+                app:motionTarget="@+id/ll_sliding"
+                app:framePosition="80"
+                app:keyPositionType="deltaRelative"
+                app:percentY="0" />
         </KeyFrameSet>
     </Transition>
     <Transition
         android:id="@+id/transition_list"
+        app:maxAcceleration="40"
+        app:motionInterpolator="easeOut"
+        app:duration="250"
         app:constraintSetStart="@+id/unfloating"
         app:constraintSetEnd="@+id/list">
         <OnSwipe

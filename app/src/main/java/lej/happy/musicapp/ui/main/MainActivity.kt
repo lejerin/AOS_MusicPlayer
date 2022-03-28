@@ -19,6 +19,7 @@ import lej.happy.musicapp.data.mMusicPlayServiceConnection
 import lej.happy.musicapp.databinding.ActivityMainBinding
 import lej.happy.musicapp.service.MusicPlayService
 import lej.happy.musicapp.ui.music.MediaPlayerManager
+import lej.happy.musicapp.ui.player.PlayerFragment
 import lej.happy.musicapp.ui.viewmodel.MusicPlayViewModel
 import lej.happy.musicapp.util.navigationHeight
 import lej.happy.musicapp.util.setStatusBarTransparent
@@ -29,13 +30,13 @@ import javax.inject.Inject
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     override val layoutResourceId: Int = R.layout.activity_main
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding.lifecycleOwner = this@MainActivity
+    override fun initData() {
+        bindMusicPlayService()
+    }
 
+    override fun initUi() {
         initNavigation()
         initTransparentSystemBar()
-        bindMusicPlayService()
     }
 
     private fun initTransparentSystemBar() {
@@ -75,7 +76,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     mMusicPlayService = binder.getService()
                 }
                 override fun onServiceDisconnected(arg0: ComponentName) {
-
+                    mMusicPlayService = null
+                    mMusicPlayServiceConnection = null
                 }
             }
         }
@@ -84,7 +86,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onBackPressed() {
+        // PlayerFragment 펼쳐져 있을 경우
+        if (binding.mlMain.progress >= 1f) {
+            binding.fcvPlayer.getFragment<PlayerFragment>().let { pf ->
+                if (pf.isListOpened) {
+                    pf.binding.mlPlayer.transitionToState(R.id.unfloating)
+                } else {
+                    pf.binding.mlPlayer.transitionToState(R.id.floating)
+                }
+            }
+        } else {
+            super.onBackPressed()
+        }
     }
 }

@@ -17,6 +17,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
         binding.lifecycleOwner = this@BaseActivity
         initData()
         initUi()
+        setupObservers()
     }
 
     override fun onDestroy() {
